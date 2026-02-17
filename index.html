@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEAR OF SATAN</title>
+    <meta name="description"
+        content="FEAR OF SATAN — Bold, funky, unapologetically loud designer socks. Berlin-inspired streetwear for your feet.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Anton&family=Instrument+Serif:ital@0;1&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">FEAR OF SATAN</div>
+        <div class="loader-bar">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+
+    <!-- ═══════ NAVIGATION ═══════ -->
+    <header class="nav" id="nav">
+        <div class="nav-bar">
+            <a href="#" class="nav-brand">FEAR OF SATAN</a>
+            <nav class="nav-center" id="navCenter">
+                <a href="#odourless">ODOURLESS</a>
+                <a href="#shop">SHOP</a>
+                <a href="#world">WORLD</a>
+                <a href="#about">ABOUT</a>
+            </nav>
+            <div class="nav-end">
+                <button class="bag-btn" id="bagBtn">BAG (<span id="bagCount">0</span>)</button>
+                <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="#odourless" class="m-link">ODOURLESS</a>
+            <a href="#shop" class="m-link">SHOP</a>
+            <a href="#world" class="m-link">WORLD</a>
+            <a href="#about" class="m-link">ABOUT</a>
+        </div>
+    </div>
+
+    <!-- ═══════ HERO — FULL BLEED EDITORIAL ═══════ -->
+    <section class="hero">
+        <div class="hero-image">
+            <img src="mascot.png" alt="FEAR OF SATAN" id="heroImg">
+        </div>
+        <div class="hero-text">
+            <span class="hero-tag">SS26 COLLECTION</span>
+            <h1 class="hero-headline">
+                <canvas id="scanCanvas"></canvas>
+                <span class="sr-only">FEAR OF SATAN</span>
+            </h1>
+            <p class="hero-deck">Socks that speak louder than your outfit.</p>
+            <a href="#shop" class="hero-cta">SHOP THE DROP</a>
+        </div>
+    </section>
+
+    <!-- ═══════ TICKER ═══════ -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>FUNKY SOCKS&ensp;✦&ensp;BOLD DESIGNS&ensp;✦&ensp;STREET CULTURE&ensp;✦&ensp;FEAR
+                NOTHING&ensp;✦&ensp;WEAR THE CHAOS&ensp;✦&ensp;LIMITED DROPS&ensp;✦&ensp;FUNKY SOCKS&ensp;✦&ensp;BOLD
+                DESIGNS&ensp;✦&ensp;STREET CULTURE&ensp;✦&ensp;FEAR NOTHING&ensp;✦&ensp;WEAR THE
+                CHAOS&ensp;✦&ensp;LIMITED DROPS&ensp;✦&ensp;</span>
+        </div>
+    </div>
+
+    <!-- ═══════ ODOURLESS COLLECTION TEASER ═══════ -->
+    <section class="odourless" id="odourless">
+        <div class="coming-soon-content">
+            <span class="cs-tag">NEW TECHNOLOGY</span>
+            <h2>ODOURLESS</h2>
+            <h3>The Scent of Nothing.</h3>
+            <div class="cs-status">
+                <span class="blink">●</span> COMING SOON
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SHOP — CLEAN PRODUCT GRID ═══════ -->
+    <section class="shop" id="shop">
+        <div class="section-head">
+            <h2>SHOP</h2>
+            <div class="filters">
+                <button class="f-btn active" data-filter="all">ALL</button>
+                <button class="f-btn" data-filter="crew">CREW</button>
+                <button class="f-btn" data-filter="ankle">ANKLE</button>
+                <button class="f-btn" data-filter="limited">LIMITED</button>
+            </div>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <div class="p-card featured" data-category="crew limited">
+                <div class="p-img"><img src="socks-hero.png" alt="The Full Cast" loading="lazy"><span
+                        class="p-tag">NEW</span></div>
+                <div class="p-info"><span class="p-name">THE FULL CAST</span><span class="p-price">₹699</span></div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+            <div class="p-card" data-category="crew limited">
+                <div class="p-img"><img src="socks-design-1.jpg" alt="Middle Finger Energy" loading="lazy"><span
+                        class="p-tag hot">HOT</span></div>
+                <div class="p-info"><span class="p-name">MIDDLE FINGER ENERGY</span><span class="p-price">₹599</span>
+                </div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+            <div class="p-card" data-category="crew">
+                <div class="p-img"><img src="socks-design-2.jpg" alt="Cold As Hell" loading="lazy"></div>
+                <div class="p-info"><span class="p-name">COLD AS HELL</span><span class="p-price">₹549</span></div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+            <div class="p-card" data-category="ankle limited">
+                <div class="p-img"><img src="socks-design-3.jpg" alt="Straight Goals" loading="lazy"><span
+                        class="p-tag">LTD</span></div>
+                <div class="p-info"><span class="p-name">STRAIGHT GOALS</span><span class="p-price">₹549</span></div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+            <div class="p-card" data-category="crew">
+                <div class="p-img"><img src="socks-design-4.jpg" alt="Around The World" loading="lazy"></div>
+                <div class="p-info"><span class="p-name">AROUND THE WORLD</span><span class="p-price">₹649</span></div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+            <div class="p-card" data-category="crew">
+                <div class="p-img img-pattern p1">
+                    <div class="p-emoji">⚡</div>
+                </div>
+                <div class="p-info"><span class="p-name">DEVIL'S PLAYGROUND</span><span class="p-price">₹699</span>
+                </div>
+                <button class="p-add" aria-label="Add to bag">+</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ WORLD / ABOUT ═══════ -->
+    <section class="world" id="world">
+        <div class="world-split">
+            <div class="world-left">
+                <img src="mascot.png" alt="FOS Mascot" class="world-img" id="worldMascot">
+            </div>
+            <div class="world-right" id="about">
+                <span class="label">ABOUT FOS</span>
+                <h2 class="world-title">We Don't<br>Do Boring<em>.</em></h2>
+                <p>FEAR OF SATAN was born from a simple belief — your socks should be the loudest thing about you. We
+                    craft magazine-grade, funky, unapologetically bold socks for people who refuse to blend in.</p>
+                <p>Every pair is a statement. Every drop is limited. Every design is chaos made wearable.</p>
+                <div class="stats">
+                    <div class="stat"><strong>26+</strong><span>Designs</span></div>
+                    <div class="stat"><strong>5K+</strong><span>Pairs Sold</span></div>
+                    <div class="stat"><strong>100%</strong><span>Premium</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ NEWSLETTER ═══════ -->
+    <section class="newsletter">
+        <div class="nl-inner">
+            <h2 class="nl-title">Join the Cult<em>.</em></h2>
+            <p class="nl-desc">Be first for new drops, collabs, and sinful discounts.</p>
+            <form class="nl-form" id="nlForm">
+                <input type="email" placeholder="EMAIL ADDRESS" required id="nlEmail">
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer class="footer">
+        <div class="footer-top">
+            <span class="footer-brand">FEAR OF SATAN</span>
+            <div class="footer-socials">
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+                <a href="#">X</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 FEAR OF SATAN</span>
+            <div class="footer-links">
+                <a href="#">Shipping</a>
+                <a href="#">Returns</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
