@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>FEAR OF SATAN</title>
     <meta name="description"
         content="FEAR OF SATAN — Bold, funky, unapologetically loud designer socks. Berlin-inspired streetwear for your feet.">
@@ -23,6 +27,9 @@
     <link rel="stylesheet" href="lightbox-styles.css">
     <link rel="stylesheet" href="kinetic-styles.css">
     <link rel="stylesheet" href="scroll-styles.css">
+    
+    <!-- Mobile Optimizations (load last to override) -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
 </head>
 
 <body>
@@ -272,6 +279,10 @@
     <!-- ═══════ SCRIPTS ═══════ -->
     <script src="script.js"></script>
     <script src="3d-engine.js"></script>
+    
+    <!-- Mobile Optimizer (load early to detect and optimize) -->
+    <script src="mobile-optimizer.js"></script>
+    
     <script src="cart-system.js"></script>
     <script src="lightbox-system.js"></script>
     <script src="kinetic-typography.js"></script>
