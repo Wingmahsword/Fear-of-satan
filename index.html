@@ -30,9 +30,16 @@
     
     <!-- Mobile Optimizations (load last to override) -->
     <link rel="stylesheet" href="mobile-optimizations.css">
+    <link rel="stylesheet" href="theme-effects.css">
 </head>
 
 <body>
+
+    <div class="theme-blobs" aria-hidden="true">
+        <div class="theme-blob blob-1"></div>
+        <div class="theme-blob blob-2"></div>
+        <div class="theme-blob blob-3"></div>
+    </div>
 
     <!-- GLASS LAYER (background blur only) -->
     <div class="scroll-glass" aria-hidden="true"></div>
@@ -44,6 +51,8 @@
         <img src="devil_only_cutout.png" id="mascotReflection" class="scroll-mascot-reflection" alt="" aria-hidden="true"
             decoding="async">
     </div>
+
+    <div class="theme-grain" aria-hidden="true"></div>
 
     <!-- ALL SITE CONTENT -->
     <div id="siteContent">
@@ -72,7 +81,7 @@
                 <a href="#about" data-hover-scramble>ABOUT</a>
             </nav>
             <div class="nav-end">
-                <button class="bag-btn btn-3d" id="bagBtn">BAG (<span id="bagCount">0</span>)</button>
+                <button class="bag-btn btn-3d tap-glow" id="bagBtn">BAG (<span id="bagCount">0</span>)</button>
                 <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
             </div>
         </div>
@@ -81,10 +90,10 @@
     <!-- MOBILE NAV -->
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-links">
-            <a href="#odourless" class="m-link">ODOURLESS</a>
-            <a href="#shop" class="m-link">SHOP</a>
-            <a href="#world" class="m-link">WORLD</a>
-            <a href="#about" class="m-link">ABOUT</a>
+            <a href="#odourless" class="m-link tap-glow">ODOURLESS</a>
+            <a href="#shop" class="m-link tap-glow">SHOP</a>
+            <a href="#world" class="m-link tap-glow">WORLD</a>
+            <a href="#about" class="m-link tap-glow">ABOUT</a>
         </div>
     </div>
 
@@ -100,7 +109,7 @@
     </div>
 
     <!-- ═══════ HERO — 3D PARALLAX ═══════ -->
-    <section class="hero hero-3d-container glass-overlay" data-pin="1.5">
+    <section class="hero hero-3d-container glass-overlay" data-pin="1.5" data-reveal>
         <div class="hero-image parallax-layer" data-speed="0.4">
             <div class="sigil-ring" aria-hidden="true">
                 <div class="sigil-core"></div>
@@ -137,7 +146,7 @@
                     <strong>Low stock, no mass reruns</strong>
                 </article>
             </div>
-            <a href="#shop" class="hero-cta btn-3d reveal-3d" data-reveal="slide-up" data-reveal-delay="1500">SHOP THE DROP</a>
+            <a href="#shop" class="hero-cta btn-3d tap-glow reveal-3d" data-reveal="slide-up" data-reveal-delay="1500">SHOP THE DROP</a>
         </div>
     </section>
 
@@ -164,14 +173,14 @@
     </section>
 
     <!-- ═══════ SHOP — 3D PRODUCT GRID ═══════ -->
-    <section class="shop glass-overlay" id="shop">
+    <section class="shop glass-overlay" id="shop" data-reveal>
         <div class="section-head reveal-3d">
             <h2 data-split="chars" data-reveal="slide-up">SHOP</h2>
             <div class="filters" data-stagger-reveal="100">
-                <button class="f-btn active btn-3d" data-filter="all">ALL</button>
-                <button class="f-btn btn-3d" data-filter="crew">CREW</button>
-                <button class="f-btn btn-3d" data-filter="ankle">ANKLE</button>
-                <button class="f-btn btn-3d" data-filter="limited">LIMITED</button>
+                <button class="f-btn active btn-3d tap-glow" data-filter="all">ALL</button>
+                <button class="f-btn btn-3d tap-glow" data-filter="crew">CREW</button>
+                <button class="f-btn btn-3d tap-glow" data-filter="ankle">ANKLE</button>
+                <button class="f-btn btn-3d tap-glow" data-filter="limited">LIMITED</button>
             </div>
         </div>
         <div class="product-grid" id="productGrid">
@@ -185,7 +194,7 @@
                         <span class="p-tag">NEW</span>
                     </div>
                     <div class="p-info"><span class="p-name">THE FULL CAST</span><span class="p-price">₹699</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -200,7 +209,7 @@
                         <span class="p-tag hot">HOT</span>
                     </div>
                     <div class="p-info"><span class="p-name">MIDDLE FINGER ENERGY</span><span class="p-price">₹599</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -212,7 +221,7 @@
                         <div class="p-img"><img src="socks-design-2.jpg" alt="Cold As Hell" loading="lazy"></div>
                     </div>
                     <div class="p-info"><span class="p-name">COLD AS HELL</span><span class="p-price">₹549</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -227,7 +236,7 @@
                         <span class="p-tag">LTD</span>
                     </div>
                     <div class="p-info"><span class="p-name">STRAIGHT GOALS</span><span class="p-price">₹549</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -239,7 +248,7 @@
                         <div class="p-img"><img src="socks-design-4.jpg" alt="Around The World" loading="lazy"></div>
                     </div>
                     <div class="p-info"><span class="p-name">AROUND THE WORLD</span><span class="p-price">₹649</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -253,7 +262,7 @@
                         </div>
                     </div>
                     <div class="p-info"><span class="p-name">DEVIL'S PLAYGROUND</span><span class="p-price">₹699</span></div>
-                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                    <button class="p-add btn-3d tap-glow" aria-label="Add to bag">+</button>
                 </div>
                 <div class="card-glare"></div>
             </div>
@@ -261,7 +270,7 @@
     </section>
 
     <!-- ═══════ WORLD / ABOUT ═══════ -->
-    <section class="world" id="world" data-pin="2">
+    <section class="world" id="world" data-pin="2" data-reveal>
         <div class="world-split">
             <div class="world-left parallax-layer" data-speed="0.3">
                 <img src="mascot.png" alt="FOS Mascot" class="world-img reveal-3d" id="worldMascot" data-reveal="rotate">
@@ -288,7 +297,7 @@
             <p class="nl-desc" data-reveal="fade" data-reveal-delay="300">Be first for new drops, collabs, and sinful discounts.</p>
             <form class="nl-form" id="nlForm" data-reveal="slide-up" data-reveal-delay="500">
                 <input type="email" placeholder="EMAIL ADDRESS" required id="nlEmail">
-                <button type="submit" class="btn-3d nl-submit">SUBSCRIBE</button>
+                <button type="submit" class="btn-3d nl-submit tap-glow">SUBSCRIBE</button>
             </form>
         </div>
     </section>
@@ -298,9 +307,9 @@
         <div class="footer-top reveal-3d" data-reveal="fade">
             <span class="footer-brand" data-glitch>FEAR OF SATAN</span>
             <div class="footer-socials" data-stagger-reveal="100">
-                <a href="#" class="btn-3d">Instagram</a>
-                <a href="#" class="btn-3d">TikTok</a>
-                <a href="#" class="btn-3d">X</a>
+                <a href="#" class="btn-3d tap-glow">Instagram</a>
+                <a href="#" class="btn-3d tap-glow">TikTok</a>
+                <a href="#" class="btn-3d tap-glow">X</a>
             </div>
         </div>
         <div class="footer-bottom reveal-3d" data-reveal="fade" data-reveal-delay="200">
@@ -330,6 +339,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
     <script src="scroll-mascot-on-glass.js"></script>
     <script src="ritual-motion.js"></script>
+    <script src="theme-effects.js"></script>
 </body>
 
 </html>
