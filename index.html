@@ -1,151 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fear of Satan – Scroll Animation Demo</title>
-    <style>
-        /* Global resets */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            min-height: 200vh; /* enough height to demonstrate scrolling */
-            position: relative;
-            background: linear-gradient(135deg, #060113, #3f0857, #280f54);
-            color: #fff;
-        }
-
-        /* Container for the background mascot image */
-        #mascot-wrapper {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            /* Start fully offscreen to the left by translating its own width */
-            transform: translate(-100%, -50%);
-            width: auto;
-            height: 80vh;
-            z-index: 0; /* behind the glass overlay and content */
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-        }
-
-        #mascot {
-            height: 100%;
-            /* keep the width proportional to the image's aspect ratio */
-            user-select: none;
-        }
-
-        /* Glass overlay effect covering the entire viewport */
-        .glass {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Page content sits above the glass overlay */
-        main {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 100px 20px;
-        }
-
-        section {
-            margin-bottom: 100px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        /* Decorative button styling reminiscent of the original site */
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            background: linear-gradient(to right, #ff006f, #ff416c);
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            transition: opacity 0.3s ease;
-        }
-        .btn:hover {
-            opacity: 0.8;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>FEAR OF SATAN</title>
+    <meta name="description"
+        content="FEAR OF SATAN — Bold, funky, unapologetically loud designer socks. Berlin-inspired streetwear for your feet.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Anton&family=Instrument+Serif:ital@0;1&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="3d-effects.css">
+    
+    <!-- Feature Styles -->
+    <link rel="stylesheet" href="cart-styles.css">
+    <link rel="stylesheet" href="lightbox-styles.css">
+    <link rel="stylesheet" href="kinetic-styles.css">
+    <link rel="stylesheet" href="scroll-styles.css">
+    
+    <!-- Mobile Optimizations (load last to override) -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
 </head>
+
 <body>
-    <!-- Wrapper that will move the mascot horizontally as you scroll -->
-    <div id="mascot-wrapper">
-        <img id="mascot" src="mascot.png" alt="Fear of Satan mascot" />
+
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
     </div>
-    <!-- Glass overlay to simulate the site as if viewed through glass -->
-    <div class="glass"></div>
-    <!-- Content above the glass overlay -->
-    <main>
-        <section>
-            <h1>Fear of Satan</h1>
-            <p>This is a demonstration of a simple scroll-based animation. As you scroll down and up, the mascot behind the glass layer will move horizontally across the screen, creating a playful "walking" effect. The glass overlay uses a blur filter and translucency to mimic the frosted glass look from the original Fear of Satan website.</p>
-            <p>Feel free to scroll up and down to see the mascot travel across the background. The content on top remains crisp and readable thanks to the glass effect.</p>
-            <a href="#" class="btn">Shop the drop</a>
-        </section>
-        <section>
-            <h1>Another Section</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed lacus vel elit venenatis ultricies. Sed rhoncus dolor eget dui pulvinar, a hendrerit urna volutpat. Vivamus vel blandit sapien, non viverra lectus. Suspendisse potenti. In elit purus, tincidunt eget dui non, fringilla dapibus ligula. Integer facilisis ipsum nulla, sed mattis odio finibus eget. Curabitur efficitur venenatis urna id porta.</p>
-            <p>Nulla facilisi. Sed vitae sem at justo varius hendrerit. Proin feugiat lorem id metus pharetra tristique. Curabitur vel mattis quam. Aenean vel leo in orci consequat sagittis. Donec auctor lacus vel laoreet scelerisque. Curabitur tempor augue id leo euismod, nec vestibulum turpis ullamcorper. Maecenas aliquet erat ac libero gravida, id venenatis est pretium.</p>
-        </section>
-        <section>
-            <h1>More Content</h1>
-            <p>Nunc nec odio id nisl viverra vehicula. Quisque non ligula eu lorem malesuada convallis a vel felis. Integer consequat interdum lacus vitae ultricies. Aliquam erat volutpat. Nulla dictum sem vel mauris imperdiet, at pharetra diam feugiat. Proin auctor sollicitudin felis sed volutpat. Duis sed est in sapien sodales tempus.</p>
-            <p>Praesent luctus arcu sed dolor efficitur malesuada. Donec eget iaculis purus, at sagittis lectus. Aenean dictum velit quis quam sollicitudin, non laoreet elit ornare.</p>
-        </section>
-    </main>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-logo" data-scramble="2000">FEAR OF SATAN</div>
+        <div class="loader-bar">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+
+    <!-- ═══════ NAVIGATION ═══════ -->
+    <header class="nav" id="nav">
+        <div class="nav-bar">
+            <a href="#" class="nav-brand" data-hover-scramble>FEAR OF SATAN</a>
+            <nav class="nav-center" id="navCenter">
+                <a href="#odourless" data-hover-scramble>ODOURLESS</a>
+                <a href="#shop" data-hover-scramble>SHOP</a>
+                <a href="#world" data-hover-scramble>WORLD</a>
+                <a href="#about" data-hover-scramble>ABOUT</a>
+            </nav>
+            <div class="nav-end">
+                <button class="bag-btn btn-3d" id="bagBtn">BAG (<span id="bagCount">0</span>)</button>
+                <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="#odourless" class="m-link">ODOURLESS</a>
+            <a href="#shop" class="m-link">SHOP</a>
+            <a href="#world" class="m-link">WORLD</a>
+            <a href="#about" class="m-link">ABOUT</a>
+        </div>
+    </div>
+
+    <!-- ═══════ FLOATING 3D ELEMENTS ═══════ -->
+    <div class="floating-3d" style="top: 20%; left: 5%;" data-float="1">
+        <div class="shape-3d shape-cube"></div>
+    </div>
+    <div class="floating-3d" style="top: 60%; right: 8%;" data-float="2">
+        <div class="shape-3d shape-pyramid"></div>
+    </div>
+    <div class="floating-3d" style="top: 40%; left: 10%;" data-float="3">
+        <div class="shape-3d shape-orb"></div>
+    </div>
+
+    <!-- ═══════ HERO — 3D PARALLAX ═══════ -->
+    <section class="hero hero-3d-container glass-overlay" data-pin="1.5">
+        <div class="hero-image parallax-layer" data-speed="0.4">
+            <div class="tilt-layer" data-depth="1">
+                <img src="mascot.png" alt="FEAR OF SATAN" id="heroImg">
+            </div>
+        </div>
+        <div class="hero-text parallax-layer" data-speed="0.8">
+            <span class="hero-tag reveal-3d" data-reveal="fade" data-reveal-delay="200">SS26 COLLECTION</span>
+            <h1 class="hero-headline hero-headline-3d reveal-3d" data-scramble="2500" data-scramble-delay="500">
+                <canvas id="scanCanvas"></canvas>
+                <span class="sr-only">FEAR OF SATAN</span>
+            </h1>
+            <p class="hero-deck reveal-3d" data-typewriter="50" data-typewriter-delay="1000">Socks that speak louder than your outfit.</p>
+            <a href="#shop" class="hero-cta btn-3d reveal-3d" data-reveal="slide-up" data-reveal-delay="1500">SHOP THE DROP</a>
+        </div>
+    </section>
+
+    <!-- ═══════ TICKER ═══════ -->
+    <div class="marquee parallax-layer" data-speed="0.2" data-reveal="fade">
+        <div class="marquee-track">
+            <span>FUNKY SOCKS&ensp;✦&ensp;BOLD DESIGNS&ensp;✦&ensp;STREET CULTURE&ensp;✦&ensp;FEAR
+                NOTHING&ensp;✦&ensp;WEAR THE CHAOS&ensp;✦&ensp;LIMITED DROPS&ensp;✦&ensp;FUNKY SOCKS&ensp;✦&ensp;BOLD
+                DESIGNS&ensp;✦&ensp;STREET CULTURE&ensp;✦&ensp;FEAR NOTHING&ensp;✦&ensp;WEAR THE
+                CHAOS&ensp;✦&ensp;LIMITED DROPS&ensp;✦&ensp;</span>
+        </div>
+    </div>
+
+    <!-- ═══════ ODOURLESS COLLECTION TEASER ═══════ -->
+    <section class="odourless reveal-3d" id="odourless" data-reveal="scale">
+        <div class="coming-soon-content">
+            <span class="cs-tag" data-reveal="slide-down">NEW TECHNOLOGY</span>
+            <h2 data-scramble="1500" data-scramble-delay="200">ODOURLESS</h2>
+            <h3 data-reveal="slide-up" data-reveal-delay="400">The Scent of Nothing.</h3>
+            <div class="cs-status" data-reveal="fade" data-reveal-delay="600">
+                <span class="blink">●</span> COMING SOON
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SHOP — 3D PRODUCT GRID ═══════ -->
+    <section class="shop glass-overlay" id="shop">
+        <div class="section-head reveal-3d">
+            <h2 data-split="chars" data-reveal="slide-up">SHOP</h2>
+            <div class="filters" data-stagger-reveal="100">
+                <button class="f-btn active btn-3d" data-filter="all">ALL</button>
+                <button class="f-btn btn-3d" data-filter="crew">CREW</button>
+                <button class="f-btn btn-3d" data-filter="ankle">ANKLE</button>
+                <button class="f-btn btn-3d" data-filter="limited">LIMITED</button>
+            </div>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <!-- Card 1: Featured -->
+            <div class="p-card featured reveal-3d" data-category="crew limited" style="--index: 0;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img"><img src="socks-hero.png" alt="The Full Cast" loading="lazy"></div>
+                    </div>
+                    <div class="tilt-layer" data-depth="2">
+                        <span class="p-tag">NEW</span>
+                    </div>
+                    <div class="p-info"><span class="p-name">THE FULL CAST</span><span class="p-price">₹699</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-card reveal-3d" data-category="crew limited" style="--index: 1;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img"><img src="socks-design-1.jpg" alt="Middle Finger Energy" loading="lazy"></div>
+                    </div>
+                    <div class="tilt-layer" data-depth="2">
+                        <span class="p-tag hot">HOT</span>
+                    </div>
+                    <div class="p-info"><span class="p-name">MIDDLE FINGER ENERGY</span><span class="p-price">₹599</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-card reveal-3d" data-category="crew" style="--index: 2;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img"><img src="socks-design-2.jpg" alt="Cold As Hell" loading="lazy"></div>
+                    </div>
+                    <div class="p-info"><span class="p-name">COLD AS HELL</span><span class="p-price">₹549</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="p-card reveal-3d" data-category="ankle limited" style="--index: 3;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img"><img src="socks-design-3.jpg" alt="Straight Goals" loading="lazy"></div>
+                    </div>
+                    <div class="tilt-layer" data-depth="2">
+                        <span class="p-tag">LTD</span>
+                    </div>
+                    <div class="p-info"><span class="p-name">STRAIGHT GOALS</span><span class="p-price">₹549</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="p-card reveal-3d" data-category="crew" style="--index: 4;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img"><img src="socks-design-4.jpg" alt="Around The World" loading="lazy"></div>
+                    </div>
+                    <div class="p-info"><span class="p-name">AROUND THE WORLD</span><span class="p-price">₹649</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="p-card reveal-3d" data-category="crew" style="--index: 5;">
+                <div class="card-3d-inner">
+                    <div class="tilt-layer" data-depth="1">
+                        <div class="p-img img-pattern p1">
+                            <div class="p-emoji">⚡</div>
+                        </div>
+                    </div>
+                    <div class="p-info"><span class="p-name">DEVIL'S PLAYGROUND</span><span class="p-price">₹699</span></div>
+                    <button class="p-add btn-3d" aria-label="Add to bag">+</button>
+                </div>
+                <div class="card-glare"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ WORLD / ABOUT ═══════ -->
+    <section class="world" id="world" data-pin="2">
+        <div class="world-split">
+            <div class="world-left parallax-layer" data-speed="0.3">
+                <img src="mascot.png" alt="FOS Mascot" class="world-img reveal-3d" id="worldMascot" data-reveal="rotate">
+            </div>
+            <div class="world-right reveal-3d" id="about">
+                <span class="label" data-reveal="fade">ABOUT FOS</span>
+                <h2 class="world-title" data-split="chars" data-reveal="slide-up">We Don't<br>Do Boring<em>.</em></h2>
+                <p data-reveal="slide-up" data-reveal-delay="200">FEAR OF SATAN was born from a simple belief — your socks should be the loudest thing about you. We
+                    craft magazine-grade, funky, unapologetically bold socks for people who refuse to blend in.</p>
+                <p data-reveal="slide-up" data-reveal-delay="400">Every pair is a statement. Every drop is limited. Every design is chaos made wearable.</p>
+                <div class="stats" data-stagger-reveal="150">
+                    <div class="stat reveal-3d"><strong data-counter="2000">26+</strong><span>Designs</span></div>
+                    <div class="stat reveal-3d"><strong data-counter="2000">5K+</strong><span>Pairs Sold</span></div>
+                    <div class="stat reveal-3d"><strong data-counter="2000">100%</strong><span>Premium</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ NEWSLETTER ═══════ -->
+    <section class="newsletter reveal-3d" data-reveal="scale">
+        <div class="nl-inner">
+            <h2 class="nl-title" data-scramble="2000">Join the Cult<em>.</em></h2>
+            <p class="nl-desc" data-reveal="fade" data-reveal-delay="300">Be first for new drops, collabs, and sinful discounts.</p>
+            <form class="nl-form" id="nlForm" data-reveal="slide-up" data-reveal-delay="500">
+                <input type="email" placeholder="EMAIL ADDRESS" required id="nlEmail">
+                <button type="submit" class="btn-3d">SUBSCRIBE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer class="footer">
+        <div class="footer-top reveal-3d" data-reveal="fade">
+            <span class="footer-brand" data-glitch>FEAR OF SATAN</span>
+            <div class="footer-socials" data-stagger-reveal="100">
+                <a href="#" class="btn-3d">Instagram</a>
+                <a href="#" class="btn-3d">TikTok</a>
+                <a href="#" class="btn-3d">X</a>
+            </div>
+        </div>
+        <div class="footer-bottom reveal-3d" data-reveal="fade" data-reveal-delay="200">
+            <span>© 2026 FEAR OF SATAN</span>
+            <div class="footer-links">
+                <a href="#">Shipping</a>
+                <a href="#">Returns</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════ SCRIPTS ═══════ -->
+    <script src="script.js"></script>
+    <script src="3d-engine.js"></script>
+    
+    <!-- Mobile Optimizer (load early to detect and optimize) -->
+    <script src="mobile-optimizer.js"></script>
+    
+    <script src="cart-system.js"></script>
+    <script src="lightbox-system.js"></script>
+    <script src="kinetic-typography.js"></script>
+    <script src="scroll-storytelling.js"></script>
+    
+    <!-- Mascot Walking Animation on Scroll -->
     <script>
-        // Scroll animation logic
-        const mascotWrapper = document.getElementById('mascot-wrapper');
-        const mascotImg = document.getElementById('mascot');
-        // Wait until image has loaded to get accurate width
-        function updatePosition() {
-            const doc = document.documentElement;
-            const scrollTop = doc.scrollTop;
-            const maxScroll = doc.scrollHeight - doc.clientHeight;
-            const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
-            // Compute horizontal travel distance: start fully offscreen to the left (−image width)
-            // and end fully offscreen to the right (viewport width + image width).  Therefore,
-            // the total distance to travel is viewport width + 2×image width.
-            const travelWidth = window.innerWidth + mascotImg.offsetWidth * 2;
-            // Convert progress (0‒1) into a translation value.  At progress=0 -> −image width,
-            // at progress=1 -> viewport width + image width.
-            const translateX = progress * travelWidth - mascotImg.offsetWidth;
-            // Apply translation on the X axis while keeping the Y offset at −50% (vertical centre).
-            mascotWrapper.style.transform = `translate(${translateX}px, -50%)`;
-        }
-        window.addEventListener('scroll', updatePosition);
-        window.addEventListener('resize', updatePosition);
-        // Ensure we set the initial position when image loads
-        mascotImg.addEventListener('load', updatePosition);
-        // Fallback in case the image is cached and load doesn't fire
-        if (mascotImg.complete) updatePosition();
+        (function() {
+            'use strict';
+            
+            const heroImg = document.getElementById('heroImg');
+            if (!heroImg) return;
+            
+            // Store original position
+            const originalTransform = heroImg.style.transform;
+            
+            function updateMascotPosition() {
+                const scrollTop = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+                
+                // Calculate horizontal movement: -50% to +50%
+                const translateX = (progress * 100) - 50;
+                
+                // Apply subtle rotation based on scroll
+                const rotateY = progress * 15;
+                
+                heroImg.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg)`;
+            }
+            
+            // Use requestAnimationFrame for smooth performance
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        updateMascotPosition();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initial position
+            updateMascotPosition();
+        })();
     </script>
 </body>
+
 </html>
