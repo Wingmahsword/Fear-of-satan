@@ -102,7 +102,17 @@
     <!-- ═══════ HERO — 3D PARALLAX ═══════ -->
     <section class="hero hero-3d-container glass-overlay" data-pin="1.5">
         <div class="hero-image parallax-layer" data-speed="0.4">
-            <div class="tilt-layer" data-depth="1">
+            <div class="sigil-ring" aria-hidden="true">
+                <div class="sigil-core"></div>
+                <div class="sigil-runes"></div>
+            </div>
+            <div class="hero-embers" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="tilt-layer hero-visual" data-depth="1">
                 <img src="mascot.png" alt="FEAR OF SATAN" id="heroImg">
             </div>
         </div>
@@ -112,7 +122,21 @@
                 <canvas id="scanCanvas"></canvas>
                 <span class="sr-only">FEAR OF SATAN</span>
             </h1>
-            <p class="hero-deck reveal-3d" data-typewriter="50" data-typewriter-delay="1000">Socks that speak louder than your outfit.</p>
+            <p class="hero-deck reveal-3d" data-typewriter="50" data-typewriter-delay="1000">Ritual-grade street socks engineered for all-night movement, all-day comfort, and unapologetic visual chaos.</p>
+            <div class="hero-insights reveal-3d" data-reveal="slide-up" data-reveal-delay="1200">
+                <article class="hero-insight">
+                    <span>DROP WINDOW</span>
+                    <strong>Every Friday, 9PM IST</strong>
+                </article>
+                <article class="hero-insight">
+                    <span>BUILD NOTES</span>
+                    <strong>Combed cotton, odourless lining</strong>
+                </article>
+                <article class="hero-insight">
+                    <span>LIMITED BATCH</span>
+                    <strong>Low stock, no mass reruns</strong>
+                </article>
+            </div>
             <a href="#shop" class="hero-cta btn-3d reveal-3d" data-reveal="slide-up" data-reveal-delay="1500">SHOP THE DROP</a>
         </div>
     </section>
@@ -264,7 +288,7 @@
             <p class="nl-desc" data-reveal="fade" data-reveal-delay="300">Be first for new drops, collabs, and sinful discounts.</p>
             <form class="nl-form" id="nlForm" data-reveal="slide-up" data-reveal-delay="500">
                 <input type="email" placeholder="EMAIL ADDRESS" required id="nlEmail">
-                <button type="submit" class="btn-3d">SUBSCRIBE</button>
+                <button type="submit" class="btn-3d nl-submit">SUBSCRIBE</button>
             </form>
         </div>
     </section>
@@ -302,7 +326,10 @@
     <script src="lightbox-system.js"></script>
     <script src="kinetic-typography.js"></script>
     <script src="scroll-storytelling.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
     <script src="scroll-mascot-on-glass.js"></script>
+    <script src="ritual-motion.js"></script>
 </body>
 
 </html>
