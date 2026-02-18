@@ -1,0 +1,338 @@
+/* ===================================================
+   FEAR OF SATAN — SCROLL STORYTELLING STYLES
+   Pinned sections, parallax, reveals, and horizontal scroll
+   =================================================== */
+
+/* Scroll Progress Indicator */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1001;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red, #ff1744), var(--magenta, #ff2d7b));
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* Pinned Sections */
+[data-pin] {
+    position: relative;
+    overflow: hidden;
+}
+
+.pin-wrapper {
+    position: relative;
+}
+
+[data-pin].pinned {
+    /* Styles when pinned */
+}
+
+[data-pin-layer] {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+/* Parallax Elements */
+[data-parallax] {
+    will-change: transform;
+}
+
+/* Reveal Animations Base */
+.reveal-hidden {
+    opacity: 0;
+}
+
+/* Fade Reveal */
+.revealed-fade {
+    animation: revealFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Slide Up Reveal */
+.revealed-slide-up {
+    animation: revealSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Down Reveal */
+.revealed-slide-down {
+    animation: revealSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Left Reveal */
+.revealed-slide-left {
+    animation: revealSlideLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealSlideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide Right Reveal */
+.revealed-slide-right {
+    animation: revealSlideRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealSlideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale Reveal */
+.revealed-scale {
+    animation: revealScale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Rotate Reveal */
+.revealed-rotate {
+    animation: revealRotate 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealRotate {
+    from {
+        opacity: 0;
+        transform: rotateY(-90deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateY(0);
+    }
+}
+
+/* Flip Reveal */
+.revealed-flip {
+    animation: revealFlip 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealFlip {
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(-90deg);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0);
+    }
+}
+
+/* Horizontal Scroll Section */
+[data-horizontal-scroll] {
+    position: relative;
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    padding: 0 5vw;
+}
+
+.horizontal-scroll-container > * {
+    flex-shrink: 0;
+    width: 80vw;
+    max-width: 800px;
+}
+
+/* Stagger Reveal */
+[data-stagger-reveal] > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-stagger-reveal].stagger-active > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scroll-triggered Section Transitions */
+.story-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.story-section .story-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(100vh);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-section.pinned .story-layer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Parallax Backgrounds */
+.parallax-bg {
+    position: absolute;
+    inset: -20%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+/* Smooth Scroll Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .scroll-progress {
+        display: none;
+    }
+}
+
+/* Storytelling Typography */
+.story-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2rem, 8vw, 6rem);
+    line-height: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.story-subhead {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    opacity: 0.8;
+    margin-top: 1rem;
+}
+
+/* Narrative Flow Indicators */
+.story-progress {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.story-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.story-dot:hover,
+.story-dot.active {
+    background: var(--red, #ff1744);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .story-progress {
+        display: none;
+    }
+    
+    .horizontal-scroll-container > * {
+        width: 90vw;
+    }
+}
+
+/* Section Number Indicators */
+.section-number {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+}
+
+.section-number::before {
+    content: '0';
+}
+
+/* Scroll Snap (Optional) */
+.scroll-snap-container {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+}
+
+.scroll-snap-section {
+    scroll-snap-align: start;
+    height: 100vh;
+}

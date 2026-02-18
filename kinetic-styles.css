@@ -1,0 +1,433 @@
+/* ===================================================
+   FEAR OF SATAN — KINETIC TYPOGRAPHY STYLES
+   Bold text animations, scramble effects, kinetic motion
+   =================================================== */
+
+/* Split Text Base */
+.split-text {
+    display: inline-block;
+}
+
+.split-text .char {
+    display: inline-block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.split-text .word {
+    display: inline-block;
+    overflow: hidden;
+}
+
+/* Character Animation on Scroll */
+.split-text.animate .char {
+    animation: charReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--char-index) * 0.03s);
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+@keyframes charReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scramble Effect */
+[data-scramble] {
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+}
+
+[data-scramble].scramble-complete {
+    animation: glitch 0.3s ease;
+}
+
+@keyframes glitch {
+    0% { text-shadow: 2px 0 var(--red), -2px 0 var(--cyan); }
+    25% { text-shadow: -2px 0 var(--red), 2px 0 var(--cyan); }
+    50% { text-shadow: 2px 0 var(--magenta), -2px 0 var(--lime); }
+    75% { text-shadow: -2px 0 var(--magenta), 2px 0 var(--lime); }
+    100% { text-shadow: none; }
+}
+
+/* Typewriter Effect */
+[data-typewriter] {
+    border-right: 2px solid var(--red);
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+
+[data-typewriter].typewriter-complete {
+    border-right: none;
+    animation: cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 50% { border-right: 2px solid var(--red); }
+    51%, 100% { border-right: 2px solid transparent; }
+}
+
+/* Reveal Animations */
+.kinetic-hidden {
+    opacity: 0;
+}
+
+.kinetic-visible {
+    opacity: 1;
+}
+
+/* Slide Up Reveal */
+.kinetic-slideUp {
+    animation: slideUpReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpReveal {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Down Reveal */
+.kinetic-slideDown {
+    animation: slideDownReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Reveal */
+.kinetic-fadeIn {
+    animation: fadeInReveal 0.8s ease forwards;
+}
+
+@keyframes fadeInReveal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Scale Reveal */
+.kinetic-scaleIn {
+    animation: scaleInReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scaleInReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Rotate Reveal */
+.kinetic-rotateIn {
+    animation: rotateInReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rotateInReveal {
+    from {
+        opacity: 0;
+        transform: rotateX(-90deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+/* Glitch Reveal */
+.kinetic-glitch {
+    animation: glitchReveal 0.6s ease forwards;
+}
+
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        clip-path: inset(40% 0 61% 0);
+        transform: translate(-2px, 2px);
+    }
+    20% {
+        opacity: 1;
+        clip-path: inset(92% 0 1% 0);
+        transform: translate(2px, -2px);
+    }
+    40% {
+        clip-path: inset(43% 0 1% 0);
+        transform: translate(-2px, 2px);
+    }
+    60% {
+        clip-path: inset(25% 0 58% 0);
+        transform: translate(2px, -2px);
+    }
+    80% {
+        clip-path: inset(54% 0 7% 0);
+        transform: translate(-2px, 2px);
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0);
+    }
+}
+
+/* Wave Text Animation */
+.wave-text {
+    display: inline-block;
+}
+
+.wave-char {
+    display: inline-block;
+    animation: waveMotion 1.5s ease-in-out infinite;
+    animation-delay: calc(var(--wave-index) * 0.05s);
+}
+
+@keyframes waveMotion {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Hover Scramble */
+[data-hover-scramble] {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+[data-hover-scramble]:hover {
+    color: var(--red, #ff1744);
+}
+
+/* Highlight Effect */
+[data-highlight] {
+    position: relative;
+}
+
+.highlight-text {
+    position: relative;
+    z-index: 1;
+}
+
+.highlight-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 40%;
+    background: linear-gradient(120deg, var(--red), var(--magenta));
+    z-index: -1;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.3;
+}
+
+[data-highlight].highlight-active .highlight-text::before {
+    width: 100%;
+}
+
+/* Counter Animation */
+[data-counter] {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Marquee Effect */
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-content {
+    display: inline-flex;
+    animation: marquee 20s linear infinite;
+}
+
+.marquee-item {
+    padding: 0 2rem;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Stagger Animation */
+[data-stagger] .stagger-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-stagger].stagger-active .stagger-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Glitch Effect */
+.glitch-container {
+    position: relative;
+}
+
+.glitch {
+    position: relative;
+    display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--red);
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--cyan);
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(14px, 9999px, 127px, 0); }
+    20% { clip: rect(66px, 9999px, 16px, 0); }
+    40% { clip: rect(125px, 9999px, 87px, 0); }
+    60% { clip: rect(44px, 9999px, 11px, 0); }
+    80% { clip: rect(96px, 9999px, 132px, 0); }
+    100% { clip: rect(28px, 9999px, 69px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(65px, 9999px, 119px, 0); }
+    20% { clip: rect(12px, 9999px, 36px, 0); }
+    40% { clip: rect(89px, 9999px, 4px, 0); }
+    60% { clip: rect(34px, 9999px, 92px, 0); }
+    80% { clip: rect(113px, 9999px, 58px, 0); }
+    100% { clip: rect(7px, 9999px, 141px, 0); }
+}
+
+/* Mask Reveal Effect */
+.mask-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.mask-text {
+    opacity: 0.2;
+}
+
+.mask-reveal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-mask-reveal].mask-active .mask-reveal {
+    clip-path: inset(0 0 0 0);
+}
+
+/* Text Shadow Animation */
+.text-shadow-animate {
+    text-shadow: 
+        2px 2px 0 var(--red),
+        4px 4px 0 var(--magenta),
+        6px 6px 0 var(--purple);
+    animation: textShadowShift 3s ease-in-out infinite;
+}
+
+@keyframes textShadowShift {
+    0%, 100% {
+        text-shadow: 
+            2px 2px 0 var(--red),
+            4px 4px 0 var(--magenta),
+            6px 6px 0 var(--purple);
+    }
+    33% {
+        text-shadow: 
+            -2px 2px 0 var(--cyan),
+            -4px 4px 0 var(--lime),
+            -6px 6px 0 var(--yellow);
+    }
+    66% {
+        text-shadow: 
+            2px -2px 0 var(--magenta),
+            4px -4px 0 var(--purple),
+            6px -6px 0 var(--red);
+    }
+}
+
+/* Neon Text Effect */
+.neon-text {
+    color: var(--fg, #f2ede8);
+    text-shadow: 
+        0 0 5px var(--red),
+        0 0 10px var(--red),
+        0 0 20px var(--red),
+        0 0 40px var(--red);
+    animation: neonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 5px var(--red),
+            0 0 10px var(--red),
+            0 0 20px var(--red),
+            0 0 40px var(--red);
+    }
+    50% {
+        text-shadow: 
+            0 0 10px var(--red),
+            0 0 20px var(--red),
+            0 0 40px var(--red),
+            0 0 80px var(--red);
+    }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    .glitch::before,
+    .glitch::after {
+        display: none;
+    }
+    
+    .wave-char {
+        animation: none;
+    }
+}

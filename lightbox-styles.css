@@ -1,0 +1,309 @@
+/* ===================================================
+   FEAR OF SATAN — LIGHTBOX STYLES
+   Full-featured product lightbox with zoom and touch
+   =================================================== */
+
+/* Lightbox Container */
+.product-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.product-lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Backdrop */
+.lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Lightbox Container */
+.lightbox-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+/* Close Button */
+.lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--fg, #f2ede8);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-close:hover {
+    background: var(--red, #ff1744);
+    border-color: var(--red, #ff1744);
+    transform: rotate(90deg);
+}
+
+/* Navigation Buttons */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--fg, #f2ede8);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-nav:hover {
+    background: var(--red, #ff1744);
+    border-color: var(--red, #ff1744);
+}
+
+.lightbox-nav.prev {
+    left: 24px;
+}
+
+.lightbox-nav.next {
+    right: 24px;
+}
+
+@media (max-width: 768px) {
+    .lightbox-nav {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .lightbox-nav.prev {
+        left: 12px;
+    }
+    
+    .lightbox-nav.next {
+        right: 12px;
+    }
+}
+
+/* Main Image Area */
+.lightbox-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 100px 20px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .lightbox-main {
+        padding: 80px 60px 20px;
+    }
+}
+
+/* Image Wrapper */
+.lightbox-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    user-select: none;
+    cursor: default;
+}
+
+/* Loader */
+.lightbox-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+}
+
+.lightbox-loader.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--red, #ff1744);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Zoom Controls */
+.lightbox-zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 16px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.zoom-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--fg, #f2ede8);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.zoom-btn:hover {
+    background: var(--red, #ff1744);
+    border-color: var(--red, #ff1744);
+}
+
+.zoom-level {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fg, #f2ede8);
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Info Panel */
+.lightbox-info {
+    text-align: center;
+    padding: 20px;
+    color: var(--fg, #f2ede8);
+}
+
+.lightbox-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.05em;
+}
+
+.lightbox-price {
+    font-size: 1.2rem;
+    color: var(--red, #ff1744);
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.lightbox-counter {
+    font-size: 0.8rem;
+    color: var(--grey, #8a8a9a);
+    margin: 0;
+}
+
+/* Thumbnails */
+.lightbox-thumbnails {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
+.lightbox-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lightbox-thumb:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-thumb.active {
+    opacity: 1;
+    border-color: var(--red, #ff1744);
+    box-shadow: 0 0 20px rgba(255, 23, 68, 0.3);
+}
+
+@media (max-width: 768px) {
+    .lightbox-thumbnails {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .lightbox-thumb {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Product cards cursor */
+.p-img img {
+    transition: transform 0.3s ease;
+}
+
+.p-card:hover .p-img img {
+    transform: scale(1.05);
+}

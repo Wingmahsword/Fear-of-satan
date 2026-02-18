@@ -13,15 +13,28 @@
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Anton&family=Instrument+Serif:ital@0;1&family=Outfit:wght@100..900&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Core Styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="3d-effects.css">
+    
+    <!-- Feature Styles -->
+    <link rel="stylesheet" href="cart-styles.css">
+    <link rel="stylesheet" href="lightbox-styles.css">
+    <link rel="stylesheet" href="kinetic-styles.css">
+    <link rel="stylesheet" href="scroll-styles.css">
 </head>
 
 <body>
 
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
     <!-- LOADER -->
     <div class="loader" id="loader">
-        <div class="loader-logo">FEAR OF SATAN</div>
+        <div class="loader-logo" data-scramble="2000">FEAR OF SATAN</div>
         <div class="loader-bar">
             <div class="loader-fill"></div>
         </div>
@@ -30,12 +43,12 @@
     <!-- ═══════ NAVIGATION ═══════ -->
     <header class="nav" id="nav">
         <div class="nav-bar">
-            <a href="#" class="nav-brand">FEAR OF SATAN</a>
+            <a href="#" class="nav-brand" data-hover-scramble>FEAR OF SATAN</a>
             <nav class="nav-center" id="navCenter">
-                <a href="#odourless">ODOURLESS</a>
-                <a href="#shop">SHOP</a>
-                <a href="#world">WORLD</a>
-                <a href="#about">ABOUT</a>
+                <a href="#odourless" data-hover-scramble>ODOURLESS</a>
+                <a href="#shop" data-hover-scramble>SHOP</a>
+                <a href="#world" data-hover-scramble>WORLD</a>
+                <a href="#about" data-hover-scramble>ABOUT</a>
             </nav>
             <div class="nav-end">
                 <button class="bag-btn btn-3d" id="bagBtn">BAG (<span id="bagCount">0</span>)</button>
@@ -66,25 +79,25 @@
     </div>
 
     <!-- ═══════ HERO — 3D PARALLAX ═══════ -->
-    <section class="hero hero-3d-container">
+    <section class="hero hero-3d-container" data-pin="1.5">
         <div class="hero-image parallax-layer" data-speed="0.4">
             <div class="tilt-layer" data-depth="1">
                 <img src="mascot.png" alt="FEAR OF SATAN" id="heroImg">
             </div>
         </div>
         <div class="hero-text parallax-layer" data-speed="0.8">
-            <span class="hero-tag reveal-3d">SS26 COLLECTION</span>
-            <h1 class="hero-headline hero-headline-3d reveal-3d">
+            <span class="hero-tag reveal-3d" data-reveal="fade" data-reveal-delay="200">SS26 COLLECTION</span>
+            <h1 class="hero-headline hero-headline-3d reveal-3d" data-scramble="2500" data-scramble-delay="500">
                 <canvas id="scanCanvas"></canvas>
                 <span class="sr-only">FEAR OF SATAN</span>
             </h1>
-            <p class="hero-deck reveal-3d">Socks that speak louder than your outfit.</p>
-            <a href="#shop" class="hero-cta btn-3d reveal-3d">SHOP THE DROP</a>
+            <p class="hero-deck reveal-3d" data-typewriter="50" data-typewriter-delay="1000">Socks that speak louder than your outfit.</p>
+            <a href="#shop" class="hero-cta btn-3d reveal-3d" data-reveal="slide-up" data-reveal-delay="1500">SHOP THE DROP</a>
         </div>
     </section>
 
     <!-- ═══════ TICKER ═══════ -->
-    <div class="marquee parallax-layer" data-speed="0.2">
+    <div class="marquee parallax-layer" data-speed="0.2" data-reveal="fade">
         <div class="marquee-track">
             <span>FUNKY SOCKS&ensp;✦&ensp;BOLD DESIGNS&ensp;✦&ensp;STREET CULTURE&ensp;✦&ensp;FEAR
                 NOTHING&ensp;✦&ensp;WEAR THE CHAOS&ensp;✦&ensp;LIMITED DROPS&ensp;✦&ensp;FUNKY SOCKS&ensp;✦&ensp;BOLD
@@ -94,12 +107,12 @@
     </div>
 
     <!-- ═══════ ODOURLESS COLLECTION TEASER ═══════ -->
-    <section class="odourless reveal-3d" id="odourless">
+    <section class="odourless reveal-3d" id="odourless" data-reveal="scale">
         <div class="coming-soon-content">
-            <span class="cs-tag">NEW TECHNOLOGY</span>
-            <h2>ODOURLESS</h2>
-            <h3>The Scent of Nothing.</h3>
-            <div class="cs-status">
+            <span class="cs-tag" data-reveal="slide-down">NEW TECHNOLOGY</span>
+            <h2 data-scramble="1500" data-scramble-delay="200">ODOURLESS</h2>
+            <h3 data-reveal="slide-up" data-reveal-delay="400">The Scent of Nothing.</h3>
+            <div class="cs-status" data-reveal="fade" data-reveal-delay="600">
                 <span class="blink">●</span> COMING SOON
             </div>
         </div>
@@ -108,8 +121,8 @@
     <!-- ═══════ SHOP — 3D PRODUCT GRID ═══════ -->
     <section class="shop" id="shop">
         <div class="section-head reveal-3d">
-            <h2>SHOP</h2>
-            <div class="filters">
+            <h2 data-split="chars" data-reveal="slide-up">SHOP</h2>
+            <div class="filters" data-stagger-reveal="100">
                 <button class="f-btn active btn-3d" data-filter="all">ALL</button>
                 <button class="f-btn btn-3d" data-filter="crew">CREW</button>
                 <button class="f-btn btn-3d" data-filter="ankle">ANKLE</button>
@@ -203,32 +216,32 @@
     </section>
 
     <!-- ═══════ WORLD / ABOUT ═══════ -->
-    <section class="world" id="world">
+    <section class="world" id="world" data-pin="2">
         <div class="world-split">
             <div class="world-left parallax-layer" data-speed="0.3">
-                <img src="mascot.png" alt="FOS Mascot" class="world-img reveal-3d" id="worldMascot">
+                <img src="mascot.png" alt="FOS Mascot" class="world-img reveal-3d" id="worldMascot" data-reveal="rotate">
             </div>
             <div class="world-right reveal-3d" id="about">
-                <span class="label">ABOUT FOS</span>
-                <h2 class="world-title">We Don't<br>Do Boring<em>.</em></h2>
-                <p>FEAR OF SATAN was born from a simple belief — your socks should be the loudest thing about you. We
+                <span class="label" data-reveal="fade">ABOUT FOS</span>
+                <h2 class="world-title" data-split="chars" data-reveal="slide-up">We Don't<br>Do Boring<em>.</em></h2>
+                <p data-reveal="slide-up" data-reveal-delay="200">FEAR OF SATAN was born from a simple belief — your socks should be the loudest thing about you. We
                     craft magazine-grade, funky, unapologetically bold socks for people who refuse to blend in.</p>
-                <p>Every pair is a statement. Every drop is limited. Every design is chaos made wearable.</p>
-                <div class="stats">
-                    <div class="stat reveal-3d"><strong>26+</strong><span>Designs</span></div>
-                    <div class="stat reveal-3d"><strong>5K+</strong><span>Pairs Sold</span></div>
-                    <div class="stat reveal-3d"><strong>100%</strong><span>Premium</span></div>
+                <p data-reveal="slide-up" data-reveal-delay="400">Every pair is a statement. Every drop is limited. Every design is chaos made wearable.</p>
+                <div class="stats" data-stagger-reveal="150">
+                    <div class="stat reveal-3d"><strong data-counter="2000">26+</strong><span>Designs</span></div>
+                    <div class="stat reveal-3d"><strong data-counter="2000">5K+</strong><span>Pairs Sold</span></div>
+                    <div class="stat reveal-3d"><strong data-counter="2000">100%</strong><span>Premium</span></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ═══════ NEWSLETTER ═══════ -->
-    <section class="newsletter reveal-3d">
+    <section class="newsletter reveal-3d" data-reveal="scale">
         <div class="nl-inner">
-            <h2 class="nl-title">Join the Cult<em>.</em></h2>
-            <p class="nl-desc">Be first for new drops, collabs, and sinful discounts.</p>
-            <form class="nl-form" id="nlForm">
+            <h2 class="nl-title" data-scramble="2000">Join the Cult<em>.</em></h2>
+            <p class="nl-desc" data-reveal="fade" data-reveal-delay="300">Be first for new drops, collabs, and sinful discounts.</p>
+            <form class="nl-form" id="nlForm" data-reveal="slide-up" data-reveal-delay="500">
                 <input type="email" placeholder="EMAIL ADDRESS" required id="nlEmail">
                 <button type="submit" class="btn-3d">SUBSCRIBE</button>
             </form>
@@ -237,15 +250,15 @@
 
     <!-- ═══════ FOOTER ═══════ -->
     <footer class="footer">
-        <div class="footer-top reveal-3d">
-            <span class="footer-brand">FEAR OF SATAN</span>
-            <div class="footer-socials">
+        <div class="footer-top reveal-3d" data-reveal="fade">
+            <span class="footer-brand" data-glitch>FEAR OF SATAN</span>
+            <div class="footer-socials" data-stagger-reveal="100">
                 <a href="#" class="btn-3d">Instagram</a>
                 <a href="#" class="btn-3d">TikTok</a>
                 <a href="#" class="btn-3d">X</a>
             </div>
         </div>
-        <div class="footer-bottom reveal-3d">
+        <div class="footer-bottom reveal-3d" data-reveal="fade" data-reveal-delay="200">
             <span>© 2026 FEAR OF SATAN</span>
             <div class="footer-links">
                 <a href="#">Shipping</a>
@@ -259,6 +272,10 @@
     <!-- ═══════ SCRIPTS ═══════ -->
     <script src="script.js"></script>
     <script src="3d-engine.js"></script>
+    <script src="cart-system.js"></script>
+    <script src="lightbox-system.js"></script>
+    <script src="kinetic-typography.js"></script>
+    <script src="scroll-storytelling.js"></script>
 </body>
 
 </html>
