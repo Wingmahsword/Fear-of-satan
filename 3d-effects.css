@@ -1,0 +1,396 @@
+/* ===================================================
+   FEAR OF SATAN — 3D VISUAL SYSTEM
+   Performance-First 3D Effects with O(1) Complexity
+   =================================================== */
+
+/* ── 3D TOKENS ────────────────────────────────────── */
+:root {
+    --3d-perspective: 1000px;
+    --3d-tilt-max: 15deg;
+    --3d-depth: 50px;
+    --3d-transition: 0.3s cubic-bezier(0.4, 0, 0, 1);
+    --3d-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --glare-opacity: 0.3;
+}
+
+/* ── GPU OPTIMIZATION LAYER ───────────────────────── */
+.gpu-layer {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    contain: layout style paint;
+}
+
+/* ── 3D CARD TILT SYSTEM ──────────────────────────── */
+.p-card {
+    transform-style: preserve-3d;
+    perspective: var(--3d-perspective);
+    transition: transform var(--3d-transition);
+    position: relative;
+}
+
+.p-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        125deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 30%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 70%,
+        transparent 100%
+    );
+    transform: translateZ(1px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.p-card:hover::before {
+    opacity: 1;
+    animation: sheen 1.5s ease-in-out;
+}
+
+@keyframes sheen {
+    0% { transform: translateZ(1px) translateX(-100%); }
+    100% { transform: translateZ(1px) translateX(100%); }
+}
+
+/* Card inner 3D layers */
+.card-3d-inner {
+    transform-style: preserve-3d;
+    transition: transform var(--3d-transition);
+    position: relative;
+    height: 100%;
+}
+
+.tilt-layer {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    position: relative;
+}
+
+.tilt-layer[data-depth="1"] { transform: translateZ(10px); }
+.tilt-layer[data-depth="2"] { transform: translateZ(30px); }
+.tilt-layer[data-depth="3"] { transform: translateZ(50px); }
+
+/* Glare overlay */
+.card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 20;
+    mix-blend-mode: overlay;
+}
+
+.p-card:hover .card-glare {
+    opacity: 1;
+}
+
+/* ── 3D BUTTON EFFECTS ────────────────────────────── */
+.btn-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
+    box-shadow: 
+        0 6px 0 var(--red-dark, #b71c1c),
+        0 8px 20px rgba(255, 23, 68, 0.4);
+}
+
+.btn-3d::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    border-radius: inherit;
+    transform: translateZ(2px);
+    pointer-events: none;
+}
+
+.btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 0 var(--red-dark, #b71c1c),
+        0 12px 30px rgba(255, 23, 68, 0.5);
+}
+
+.btn-3d:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 var(--red-dark, #b71c1c),
+        0 4px 10px rgba(255, 23, 68, 0.3);
+}
+
+/* ── HERO 3D PARALLAX SYSTEM ──────────────────────── */
+.hero-3d-container {
+    perspective: var(--3d-perspective);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-layer {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+.parallax-layer[data-speed="0.2"] { --speed: 0.2; }
+.parallax-layer[data-speed="0.4"] { --speed: 0.4; }
+.parallax-layer[data-speed="0.6"] { --speed: 0.6; }
+.parallax-layer[data-speed="0.8"] { --speed: 0.8; }
+.parallax-layer[data-speed="1.0"] { --speed: 1.0; }
+
+/* Hero text 3D effect */
+.hero-headline-3d {
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+.hero-text-3d {
+    display: inline-block;
+    transform-style: preserve-3d;
+    text-shadow: 
+        1px 1px 0 rgba(255, 23, 68, 0.3),
+        2px 2px 0 rgba(255, 23, 68, 0.2),
+        3px 3px 0 rgba(255, 23, 68, 0.1),
+        4px 4px 0 rgba(255, 45, 123, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* ── FLOATING 3D ELEMENTS ─────────────────────────── */
+.floating-3d {
+    position: absolute;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.shape-3d {
+    transform-style: preserve-3d;
+    animation: float3d 8s ease-in-out infinite;
+}
+
+.shape-cube {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--red), var(--magenta));
+    transform: rotateX(45deg) rotateY(45deg);
+    box-shadow: 
+        0 0 30px rgba(255, 23, 68, 0.4),
+        inset 0 0 15px rgba(255,255,255,0.2);
+}
+
+.shape-pyramid {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid var(--cyan);
+    filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.5));
+    animation: float3d 10s ease-in-out infinite reverse;
+}
+
+.shape-orb {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), var(--purple));
+    box-shadow: 
+        0 0 40px var(--purple),
+        inset -10px -10px 20px rgba(0,0,0,0.3);
+    animation: float3d 12s ease-in-out infinite;
+}
+
+@keyframes float3d {
+    0%, 100% {
+        transform: 
+            rotateX(45deg) rotateY(45deg) 
+            translateY(0) translateZ(0);
+    }
+    25% {
+        transform: 
+            rotateX(60deg) rotateY(90deg) 
+            translateY(-15px) translateZ(20px);
+    }
+    50% {
+        transform: 
+            rotateX(45deg) rotateY(135deg) 
+            translateY(-25px) translateZ(40px);
+    }
+    75% {
+        transform: 
+            rotateX(30deg) rotateY(90deg) 
+            translateY(-15px) translateZ(20px);
+    }
+}
+
+/* ── SCROLL 3D REVEALS ────────────────────────────── */
+.reveal-3d {
+    opacity: 0;
+    transform: 
+        perspective(1000px)
+        rotateX(30deg)
+        rotateY(-10deg)
+        translateZ(-100px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+}
+
+.reveal-3d.visible {
+    opacity: 1;
+    transform: 
+        perspective(1000px)
+        rotateX(0)
+        rotateY(0)
+        translateZ(0);
+}
+
+/* Stagger animation for grid items */
+.product-grid .p-card {
+    --index: 0;
+    animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--index) * 100ms);
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: 
+            perspective(1000px)
+            rotateY(-30deg) 
+            rotateX(10deg) 
+            translateZ(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: 
+            perspective(1000px)
+            rotateY(0) 
+            rotateX(0) 
+            translateZ(0);
+    }
+}
+
+/* ── PARTICLE SYSTEM ──────────────────────────────── */
+.particle-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    pointer-events: none;
+    opacity: 0;
+}
+
+.particle.burst {
+    animation: particleBurst 0.8s ease-out forwards;
+}
+
+@keyframes particleBurst {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+/* ── MAGNETIC CURSOR EFFECT ──────────────────────── */
+.magnetic {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── SCAN TEXT 3D IMPROVEMENT ────────────────────── */
+.scan-text-3d {
+    transform-style: preserve-3d;
+    perspective: 600px;
+}
+
+.scan-slice {
+    display: block;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+/* ── RESPONSIVE 3D ADJUSTMENTS ───────────────────── */
+@media (max-width: 1024px) {
+    :root {
+        --3d-tilt-max: 10deg;
+        --3d-depth: 30px;
+    }
+    
+    .parallax-layer {
+        /* Reduce parallax on tablet */
+        transform: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Disable complex 3D on mobile for performance */
+    .p-card {
+        transform: none !important;
+    }
+    
+    .p-card::before,
+    .card-glare {
+        display: none;
+    }
+    
+    .floating-3d {
+        display: none;
+    }
+    
+    .reveal-3d {
+        transform: translateY(30px);
+    }
+    
+    .reveal-3d.visible {
+        transform: translateY(0);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .parallax-layer,
+    .floating-3d,
+    .shape-3d {
+        transform: none !important;
+        animation: none !important;
+    }
+}
+
+/* ── HIGH PERFORMANCE MODE ──────────────────────── */
+.performance-mode .floating-3d,
+.performance-mode .card-glare,
+.performance-mode .p-card::before {
+    display: none;
+}
+
+.performance-mode .p-card {
+    transform: none !important;
+}
