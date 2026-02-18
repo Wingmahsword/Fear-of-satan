@@ -34,6 +34,12 @@
 
 <body>
 
+    <!-- GLOBAL SCROLL MASCOT BACKGROUND -->
+    <div class="scroll-mascot-layer" id="scrollMascotWrapper" aria-hidden="true">
+        <img src="mascot.png" alt="" class="scroll-mascot-image" id="scrollMascotImage" decoding="async">
+    </div>
+    <div class="scroll-mascot-glass" aria-hidden="true"></div>
+
     <!-- SCROLL PROGRESS -->
     <div class="scroll-progress">
         <div class="scroll-progress-bar"></div>
@@ -287,48 +293,7 @@
     <script src="lightbox-system.js"></script>
     <script src="kinetic-typography.js"></script>
     <script src="scroll-storytelling.js"></script>
-    
-    <!-- Mascot Walking Animation on Scroll -->
-    <script>
-        (function() {
-            'use strict';
-            
-            const heroImg = document.getElementById('heroImg');
-            if (!heroImg) return;
-            
-            // Store original position
-            const originalTransform = heroImg.style.transform;
-            
-            function updateMascotPosition() {
-                const scrollTop = window.scrollY;
-                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
-                
-                // Calculate horizontal movement: -50% to +50%
-                const translateX = (progress * 100) - 50;
-                
-                // Apply subtle rotation based on scroll
-                const rotateY = progress * 15;
-                
-                heroImg.style.transform = `translateX(${translateX}px) rotateY(${rotateY}deg)`;
-            }
-            
-            // Use requestAnimationFrame for smooth performance
-            let ticking = false;
-            window.addEventListener('scroll', function() {
-                if (!ticking) {
-                    requestAnimationFrame(function() {
-                        updateMascotPosition();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
-            
-            // Initial position
-            updateMascotPosition();
-        })();
-    </script>
+    <script src="scroll-mascot-background.js"></script>
 </body>
 
 </html>
