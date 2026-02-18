@@ -140,37 +140,79 @@
         padding: 0.5rem 1rem;
     }
 
-    /* Product Grid Mobile */
+    /* Product Grid Mobile - Fixed overlapping */
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 0.75rem;
+        grid-auto-flow: row;
+    }
+
+    /* Reset featured card spanning */
+    .p-card.featured {
+        grid-column: span 2;
+        grid-row: span 1;
     }
 
     .p-card {
         transform: none !important;
+        animation: none !important;
+        position: relative;
+        min-height: auto;
+    }
+
+    /* Remove 3D inner structure issues */
+    .p-card .card-3d-inner {
+        transform: none !important;
+        position: static;
+    }
+
+    .p-card .tilt-layer {
+        transform: none !important;
+        position: static;
     }
 
     .p-card::before,
     .card-glare {
-        display: none;
+        display: none !important;
     }
 
     .p-img {
         aspect-ratio: 1;
+        padding: 16px;
+    }
+
+    .p-img img {
+        max-height: 100%;
+        width: auto;
+    }
+
+    .p-info {
+        padding: 0.75rem;
+        gap: 0.25rem;
     }
 
     .p-name {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        line-height: 1.2;
     }
 
     .p-price {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .p-add {
-        width: 32px;
-        height: 32px;
-        font-size: 1.2rem;
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+        bottom: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .p-tag {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+        top: 0.5rem;
+        left: 0.5rem;
     }
 
     /* ===== WORLD / ABOUT SECTION ===== */
@@ -280,6 +322,22 @@
     /* ===== FLOATING 3D ELEMENTS ===== */
     .floating-3d {
         display: none;
+    }
+
+    /* Fix reveal animations causing overlap */
+    .reveal-3d {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    /* Ensure proper stacking */
+    .p-card {
+        z-index: 1;
+    }
+
+    .p-card:hover {
+        z-index: 2;
     }
 
     /* ===== CART DRAWER MOBILE ===== */
@@ -440,12 +498,18 @@
 
     .product-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1rem;
+    }
+
+    /* Fix featured card on small screens */
+    .p-card.featured {
+        grid-column: span 1;
+        grid-row: span 1;
     }
 
     .p-card {
-        max-width: 300px;
-        margin: 0 auto;
+        max-width: 100%;
+        margin: 0;
     }
 
     .filters {
