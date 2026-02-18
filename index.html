@@ -34,11 +34,19 @@
 
 <body>
 
-    <!-- GLOBAL SCROLL MASCOT BACKGROUND -->
-    <div class="scroll-mascot-layer" id="scrollMascotWrapper" aria-hidden="true">
-        <img src="mascot.png" alt="" class="scroll-mascot-image" id="scrollMascotImage" decoding="async">
+    <!-- GLASS LAYER (background blur only) -->
+    <div class="scroll-glass" aria-hidden="true"></div>
+
+    <!-- MASCOT WALKING ON GLASS -->
+    <div class="scroll-mascot-layer" aria-hidden="true">
+        <div class="scroll-mascot-shadow" id="mascotShadow"></div>
+        <img src="devil_only_cutout.png" id="mascot" class="scroll-mascot" alt="" decoding="async">
+        <img src="devil_only_cutout.png" id="mascotReflection" class="scroll-mascot-reflection" alt="" aria-hidden="true"
+            decoding="async">
     </div>
-    <div class="scroll-mascot-glass" aria-hidden="true"></div>
+
+    <!-- ALL SITE CONTENT -->
+    <div id="siteContent">
 
     <!-- SCROLL PROGRESS -->
     <div class="scroll-progress">
@@ -281,6 +289,7 @@
             </div>
         </div>
     </footer>
+    </div>
 
     <!-- ═══════ SCRIPTS ═══════ -->
     <script src="script.js"></script>
@@ -293,7 +302,7 @@
     <script src="lightbox-system.js"></script>
     <script src="kinetic-typography.js"></script>
     <script src="scroll-storytelling.js"></script>
-    <script src="scroll-mascot-background.js"></script>
+    <script src="scroll-mascot-on-glass.js"></script>
 </body>
 
 </html>
