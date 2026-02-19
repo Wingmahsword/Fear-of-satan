@@ -140,12 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
        7. HERO MOUSE PARALLAX
        ============================================== */
     const heroImg = document.getElementById('heroImg');
-    document.addEventListener('mousemove', (e) => {
-        if (!heroImg) return;
-        const x = (window.innerWidth - e.pageX * 2) / 90;
-        const y = (window.innerHeight - e.pageY * 2) / 90;
-        heroImg.style.transform = `translateX(${x}px) translateY(${y}px)`;
-    });
+    if (heroImg) {
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 90;
+            const y = (window.innerHeight - e.pageY * 2) / 90;
+            heroImg.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        });
+    }
 
     /* ==============================================
        8. MOBILE MENU

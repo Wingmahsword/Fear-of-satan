@@ -488,6 +488,88 @@ img {
     z-index: 3;
 }
 
+.glass-satan-shell {
+    position: sticky;
+    top: clamp(72px, 10vh, 110px);
+    width: min(86%, 540px);
+    max-height: calc(100vh - 140px);
+    aspect-ratio: 9 / 16;
+    z-index: 4;
+    transform: translateZ(20px);
+    will-change: transform;
+}
+
+.glass-satan-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 26px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    box-shadow:
+        0 36px 90px rgba(0, 0, 0, 0.52),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 0 80px rgba(255, 45, 123, 0.2);
+    isolation: isolate;
+    clip-path: polygon(0% 2%, 4% 1%, 10% 2.2%, 16% 0.8%, 24% 2.3%, 31% 1.1%, 39% 2.4%, 47% 1%, 55% 2.1%, 64% 0.9%, 72% 2.4%, 80% 1.2%, 88% 2.2%, 95% 1.1%, 100% 2.6%, 100% 97%, 96% 98.5%, 89% 97.2%, 81% 99%, 73% 97.1%, 65% 98.8%, 57% 97%, 49% 98.7%, 40% 97.2%, 31% 98.9%, 22% 97.4%, 14% 99.2%, 7% 97.5%, 0% 98.5%);
+}
+
+.glass-satan-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(145deg, rgba(255, 45, 123, 0.34), rgba(176, 64, 255, 0.26), rgba(0, 229, 255, 0.12)),
+        radial-gradient(circle at 16% 15%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+    mix-blend-mode: screen;
+    opacity: 0.62;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.glass-satan-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(95deg, rgba(255, 255, 255, 0.14) 0 2px, rgba(255, 255, 255, 0) 2px 10px),
+        repeating-linear-gradient(-95deg, rgba(255, 45, 123, 0.08) 0 1px, rgba(255, 45, 123, 0) 1px 8px);
+    mix-blend-mode: soft-light;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.glass-satan-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: transparent;
+    filter: saturate(1.18) contrast(1.08);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.glass-satan-tint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(120% 80% at 50% 0%, rgba(255, 45, 123, 0.36), rgba(255, 45, 123, 0)),
+        radial-gradient(100% 100% at 50% 100%, rgba(176, 64, 255, 0.28), rgba(176, 64, 255, 0)),
+        linear-gradient(180deg, rgba(10, 10, 15, 0), rgba(10, 10, 15, 0.22));
+    mix-blend-mode: color-dodge;
+    opacity: 0.52;
+    z-index: 4;
+}
+
 .hero-image img {
     max-height: 70vh;
     width: auto;
@@ -1480,6 +1562,12 @@ img {
         padding: 40px;
     }
 
+    .glass-satan-shell {
+        width: min(82vw, 460px);
+        max-height: calc(100vh - 120px);
+        top: clamp(64px, 8vh, 92px);
+    }
+
     .hero-text {
         text-align: center;
         align-items: center;
@@ -1570,6 +1658,12 @@ img {
 
     .hero-image {
         min-height: 60vh;
+    }
+
+    .glass-satan-shell {
+        width: min(88vw, 380px);
+        max-height: calc(100vh - 108px);
+        top: clamp(58px, 10vh, 84px);
     }
 
     .sigil-ring {

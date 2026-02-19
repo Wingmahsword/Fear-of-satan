@@ -121,8 +121,24 @@
                 <span></span>
                 <span></span>
             </div>
-            <div class="tilt-layer hero-visual" data-depth="1">
-                <img src="mascot.png" alt="FEAR OF SATAN" id="heroImg">
+            <div class="tilt-layer hero-visual glass-satan-shell" data-depth="1">
+                <div class="glass-satan-frame">
+                    <video
+                        id="glassSatanVideo"
+                        class="glass-satan-video"
+                        data-video-mp4="satan-walk-vertical.mp4"
+                        data-loop-multiplier="1"
+                        muted
+                        loop
+                        playsinline
+                        webkit-playsinline
+                        preload="metadata"
+                        disablepictureinpicture
+                        aria-label="Fear of Satan walk loop">
+                        <source src="satan-walk-vertical.mp4" type="video/mp4">
+                    </video>
+                    <div class="glass-satan-tint" aria-hidden="true"></div>
+                </div>
             </div>
         </div>
         <div class="hero-text parallax-layer" data-speed="0.8">
@@ -337,6 +353,7 @@
     <script src="scroll-storytelling.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="glass-satan.js"></script>
     <script src="scroll-mascot-on-glass.js"></script>
     <script src="ritual-motion.js"></script>
     <script src="theme-effects.js"></script>
