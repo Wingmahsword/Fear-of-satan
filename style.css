@@ -3,6 +3,9 @@
    Bold, colorful, magazine-grade
    =================================================== */
 
+/* Import Lenis Smooth Scroll Styles */
+@import url('lenis.css');
+
 /* ── TOKENS ────────────────────────────────────── */
 :root {
     --obsidian: #0a0a0f;

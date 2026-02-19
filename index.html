@@ -340,22 +340,48 @@
     </footer>
     </div>
 
-    <!-- ═══════ SCRIPTS ═══════ -->
+    <!-- ═══════ OPTIMIZED SCRIPT LOADING ═══════ -->
+    
+    <!-- 1. GSAP Core -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    
+    <!-- 2. Three.js Import Map -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.175.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.175.0/examples/jsm/"
+      }
+    }
+    </script>
+    
+    <!-- 3. Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js"></script>
+    <script src="lenis-integration.js"></script>
+    
+    <!-- 4. Three.js WebGPU Engine (Module) -->
+    <script type="module" src="three-webgpu-engine.js"></script>
+    
+    <!-- 5. Core Site Scripts -->
     <script src="webgpu-engine.js"></script>
     <script src="script.js"></script>
     <script src="3d-engine.js"></script>
     
-    <!-- Mobile Optimizer (load early to detect and optimize) -->
+    <!-- 6. Mobile Optimizer -->
     <script src="mobile-optimizer.js"></script>
     
+    <!-- 7. Site Systems -->
     <script src="cart-system.js"></script>
     <script src="lightbox-system.js"></script>
     <script src="kinetic-typography.js"></script>
+    
+    <!-- 8. Scroll Systems (Now with Lenis) -->
     <script src="scroll-storytelling.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
     <script src="glass-satan.js"></script>
     <script src="scroll-mascot-on-glass.js"></script>
+    
+    <!-- 9. GSAP Animations -->
     <script src="ritual-motion.js"></script>
     <script src="theme-effects.js"></script>
 </body>

@@ -1,0 +1,57 @@
+/**
+ * FEAR OF SATAN - Lenis Smooth Scroll Styles
+ */
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Three.js WebGPU Canvas */
+.webgpu-canvas.three-webgpu {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1000 !important;
+}
+
+/* Fallback mode */
+.three-webgpu-fallback .webgpu-canvas.three-webgpu {
+  display: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html.lenis {
+    scroll-behavior: auto !important;
+  }
+  
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .webgpu-canvas.three-webgpu {
+    opacity: 0.8;
+  }
+}

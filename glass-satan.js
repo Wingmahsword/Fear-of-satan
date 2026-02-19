@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FEAR OF SATAN - GLASS SATAN HERO SCRUB
  * Scroll-drives a vertical transparent video inside the hero glass frame.
  */
@@ -174,7 +174,21 @@
     }
 
     function initNativeFallback() {
-      addListener(window, "scroll", requestNativeUpdate, passiveOpts);
+      // Check if Lenis is available
+      if (window.lenis) {
+        // Use Lenis scroll for smoother video scrubbing
+        window.lenis.on('scroll', ({ scroll, limit }) => {
+          const scrollProgress = scroll / limit;
+          const heroRect = hero.getBoundingClientRect();
+          const viewportProgress = Math.max(0, Math.min(1, 
+            (window.innerHeight - heroRect.top) / (heroRect.height + window.innerHeight)
+          ));
+          setFromProgress(viewportProgress);
+        });
+      } else {
+        // Fallback to native scroll
+        addListener(window, "scroll", requestNativeUpdate, passiveOpts);
+      }
       addListener(window, "resize", requestNativeUpdate);
       requestNativeUpdate();
     }

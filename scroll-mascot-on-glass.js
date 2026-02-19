@@ -20,8 +20,8 @@
 
   const lerp = (a, b, t) => a + (b - a) * t;
 
-  function updateTargets() {
-    const s = scrollY;
+  function updateTargets(scrollY, velocity) {
+    const s = scrollY !== undefined ? scrollY : window.scrollY;
     const p = Math.min(Math.max(s / maxScroll, 0), 1);
 
     tx = -mw + (vw + mw * 2) * p;
@@ -30,7 +30,9 @@
       ty = 0;
       tr = 0;
     } else {
-      const walk = s * 0.045;
+      // Use velocity to influence the walk animation
+      const speedMultiplier = velocity ? (1 + Math.abs(velocity) * 0.01) : 1;
+      const walk = s * 0.045 * speedMultiplier;
       ty = Math.sin(walk) * 10;
       tr = Math.sin(walk * 0.6) * 2.2;
     }
@@ -56,10 +58,22 @@
     vw = innerWidth;
     mw = mascot.getBoundingClientRect().width;
     maxScroll = Math.max(document.body.scrollHeight - innerHeight, 1);
-    updateTargets();
+    
+    // Get current scroll from Lenis if available
+    const scrollData = window.getLenisData ? window.getLenisData() : null;
+    updateTargets(scrollData ? scrollData.scroll : window.scrollY, scrollData ? scrollData.velocity : 0);
   }
 
-  addEventListener("scroll", updateTargets, { passive: true });
+  // Check if Lenis is available for smooth scroll sync
+  if (window.lenis) {
+    window.lenis.on('scroll', ({ scroll, velocity }) => {
+      updateTargets(scroll, velocity);
+    });
+  } else {
+    // Fallback to native scroll
+    addEventListener("scroll", () => updateTargets(window.scrollY, 0), { passive: true });
+  }
+  
   addEventListener("resize", measure, { passive: true });
   addEventListener("load", measure);
 

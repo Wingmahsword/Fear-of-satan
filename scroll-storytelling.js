@@ -29,24 +29,37 @@
             console.log('📜 Scroll Storytelling initialized');
         }
 
-        // Bind scroll events with throttling
+        // Bind scroll events with Lenis integration
         bindScroll() {
-            let ticking = false;
+            // Check if Lenis is available
+            if (window.lenis) {
+                // Use Lenis scroll events
+                window.lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
+                    this.scrollY = scroll;
+                    this.lastScrollY = scroll;
+                    this.direction = direction;
+                    
+                    this.update();
+                    this.updateProgress();
+                });
+            } else {
+                // Fallback to native scroll
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    this.scrollY = window.scrollY;
+                    this.direction = this.scrollY > this.lastScrollY ? 'down' : 'up';
 
-            window.addEventListener('scroll', () => {
-                this.scrollY = window.scrollY;
-                this.direction = this.scrollY > this.lastScrollY ? 'down' : 'up';
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            this.update();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
 
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        this.update();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-
-                this.lastScrollY = this.scrollY;
-            }, { passive: true });
+                    this.lastScrollY = this.scrollY;
+                }, { passive: true });
+            }
         }
 
         // Update all scroll-based animations
@@ -259,7 +272,7 @@
             this.progressBar.style.width = `${progress}%`;
         }
 
-        // Smooth scroll for anchor links
+        // Smooth scroll for anchor links with Lenis
         initSmoothScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
@@ -269,10 +282,20 @@
                     const target = document.querySelector(targetId);
                     if (target) {
                         e.preventDefault();
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        
+                        if (window.scrollToSection) {
+                            // Use Lenis smooth scroll
+                            window.scrollToSection(target, {
+                                offset: 0,
+                                duration: 1.2
+                            });
+                        } else {
+                            // Fallback to native
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
                     }
                 });
             });
