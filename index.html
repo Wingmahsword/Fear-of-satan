@@ -346,12 +346,12 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
     
-    <!-- 2. Three.js Import Map -->
+    <!-- 2. Three.js Import Map - Using jsDelivr for CORS support -->
     <script type="importmap">
     {
       "imports": {
-        "three": "https://unpkg.com/three@0.175.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.175.0/examples/jsm/"
+        "three": "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.175.0/examples/jsm/"
       }
     }
     </script>
