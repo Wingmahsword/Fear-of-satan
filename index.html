@@ -30,6 +30,7 @@
     
     <!-- Mobile Optimizations (load last to override) -->
     <link rel="stylesheet" href="mobile-optimizations.css">
+    <link rel="stylesheet" href="mobile-enhanced.css">
     <link rel="stylesheet" href="theme-effects.css">
 </head>
 
@@ -40,6 +41,10 @@
         <div class="theme-blob blob-2"></div>
         <div class="theme-blob blob-3"></div>
     </div>
+    
+    <!-- MOBILE FLOATING ELEMENTS (visible only on mobile) -->
+    <div class="floating-element floating-element-1" aria-hidden="true"></div>
+    <div class="floating-element floating-element-2" aria-hidden="true"></div>
 
     <!-- GLASS LAYER (background blur only) -->
     <div class="scroll-glass" aria-hidden="true"></div>
@@ -368,8 +373,9 @@
     <script src="script.js"></script>
     <script src="3d-engine.js"></script>
     
-    <!-- 6. Mobile Optimizer -->
+    <!-- 6. Mobile Optimizer & Effects -->
     <script src="mobile-optimizer.js"></script>
+    <script src="mobile-effects.js"></script>
     
     <!-- 7. Site Systems -->
     <script src="cart-system.js"></script>
