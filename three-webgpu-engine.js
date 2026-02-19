@@ -15,6 +15,7 @@ import './three-post-processing.js';
 import './three-particle-system.js';
 import './three-fluid-simulation.js';
 import './three-physics.js';
+import './three-bat-particles.js';
 
 class ThreeWebGPUEngine {
     constructor() {
@@ -118,7 +119,12 @@ class ThreeWebGPUEngine {
                 this.physics = new window.PhysicsSystem(this.scene);
             }
             
-            // 7. Post-Processing Pipeline
+            // 7. Flying Bat Particles (8 colored bats)
+            if (window.BatParticleSystem) {
+                this.bats = new window.BatParticleSystem(this.scene);
+            }
+            
+            // 8. Post-Processing Pipeline
             if (window.PostProcessingPipeline) {
                 this.postProcessing = new window.PostProcessingPipeline(this.renderer, this.scene, this.camera);
             }
@@ -372,6 +378,10 @@ class ThreeWebGPUEngine {
         
         if (this.physics) {
             this.physics.update();
+        }
+        
+        if (this.bats) {
+            this.bats.update(time);
         }
         
         if (this.postProcessing) {
