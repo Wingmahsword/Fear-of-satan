@@ -24,11 +24,14 @@ class PostProcessingPipeline {
     
     init() {
         try {
-            // Create effect composer
+            // Create effect composer with alpha support
             this.composer = new EffectComposer(this.renderer);
+            this.composer.renderTarget1.texture.format = THREE.RGBAFormat;
+            this.composer.renderTarget2.texture.format = THREE.RGBAFormat;
             
-            // Add render pass
+            // Add render pass with transparent background
             const renderPass = new RenderPass(this.scene, this.camera);
+            renderPass.clearAlpha = 0;
             this.composer.addPass(renderPass);
             
             // Bloom effect (glow on bright areas)

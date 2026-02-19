@@ -75,8 +75,12 @@ class ThreeWebGPUEngine {
             this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             this.renderer.setSize(window.innerWidth, window.innerHeight);
             
+            // Set clear color to transparent (crucial for seeing HTML content behind)
+            this.renderer.setClearColor(0x000000, 0);
+            
             // Scene setup
             this.scene = new THREE.Scene();
+            this.scene.background = null; // Transparent background
             this.camera = new THREE.PerspectiveCamera(
                 75, 
                 window.innerWidth / window.innerHeight, 
