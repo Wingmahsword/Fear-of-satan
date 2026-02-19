@@ -121,7 +121,7 @@ class PostProcessingPipeline {
             `
         };
         
-        this.customPass = new THREE.ShaderPass(customShader);
+        this.customPass = new ShaderPass(customShader);
         this.composer.addPass(this.customPass);
     }
     
