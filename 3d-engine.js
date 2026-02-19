@@ -369,57 +369,126 @@
             this.pool = [];
             this.active = [];
             this.maxParticles = 50;
+            this.useGPU = window.FOSWebGPU && window.FOSWebGPU.supported;
+            this.activeParticles = [];
+            this.particleId = 0;
         }
 
         init() {
-            this.container = document.createElement('div');
-            this.container.className = 'particle-container';
-            document.body.appendChild(this.container);
+            if (!this.useGPU) {
+                this.container = document.createElement('div');
+                this.container.className = 'particle-container';
+                document.body.appendChild(this.container);
 
-            // Pre-create particle pool
-            for (let i = 0; i < this.maxParticles; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                this.pool.push(particle);
+                // Pre-create particle pool
+                for (let i = 0; i < this.maxParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    this.pool.push(particle);
+                }
+            }
+
+            // Subscribe to animation loop for GPU particles
+            if (this.useGPU) {
+                this.unsubscribe = animLoop.add(() => this.updateGPU());
             }
         }
 
         burst(x, y, count = 8) {
             if (state.isTouch || state.reducedMotion) return;
 
-            const colors = ['#ff1744', '#ff2d7b', '#00e5ff', '#c6ff00', '#b040ff'];
+            const colors = [
+                { r: 1.0, g: 0.09, b: 0.27, a: 1.0 }, // #ff1744
+                { r: 1.0, g: 0.18, b: 0.48, a: 1.0 }, // #ff2d7b
+                { r: 0.0, g: 0.9, b: 1.0, a: 1.0 },   // #00e5ff
+                { r: 0.78, g: 1.0, b: 0.0, a: 1.0 },  // #c6ff00
+                { r: 0.69, g: 0.25, b: 1.0, a: 1.0 }  // #b040ff
+            ];
 
-            for (let i = 0; i < count; i++) {
-                const particle = this.pool.pop() || document.createElement('div');
-                
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.transform = 'scale(1)';
-                particle.style.opacity = '1';
+            if (this.useGPU) {
+                // GPU mode
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count;
+                    const velocity = 50 + Math.random() * 100;
+                    const vx = Math.cos(angle) * velocity;
+                    const vy = Math.sin(angle) * velocity;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
 
-                this.container.appendChild(particle);
+                    this.activeParticles.push({
+                        id: this.particleId++,
+                        x: x,
+                        y: y,
+                        vx: vx,
+                        vy: vy,
+                        life: 1.0,
+                        size: 4 + Math.random() * 4,
+                        color: color,
+                        startTime: performance.now()
+                    });
+                }
+            } else {
+                // DOM mode (original)
+                for (let i = 0; i < count; i++) {
+                    const particle = this.pool.pop() || document.createElement('div');
+                    
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.backgroundColor = `rgba(${Math.floor(color.r*255)}, ${Math.floor(color.g*255)}, ${Math.floor(color.b*255)}, ${color.a})`;
+                    particle.style.transform = 'scale(1)';
+                    particle.style.opacity = '1';
 
-                // Calculate burst trajectory
-                const angle = (Math.PI * 2 * i) / count;
-                const velocity = 50 + Math.random() * 100;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
+                    this.container.appendChild(particle);
 
-                // Animate with Web Animations API
-                const animation = particle.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 600 + Math.random() * 200,
-                    easing: 'cubic-bezier(0, .9, .57, 1)',
-                    fill: 'forwards'
-                });
+                    // Calculate burst trajectory
+                    const angle = (Math.PI * 2 * i) / count;
+                    const velocity = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
 
-                animation.onfinish = () => {
-                    particle.remove();
-                    this.pool.push(particle);
-                };
+                    // Animate with Web Animations API
+                    const animation = particle.animate([
+                        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                        { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                    ], {
+                        duration: 600 + Math.random() * 200,
+                        easing: 'cubic-bezier(0, .9, .57, 1)',
+                        fill: 'forwards'
+                    });
+
+                    animation.onfinish = () => {
+                        particle.remove();
+                        this.pool.push(particle);
+                    };
+                }
+            }
+        }
+
+        updateGPU() {
+            const now = performance.now();
+            const deltaTime = 16; // Assume 60fps
+
+            // Update particles
+            this.activeParticles = this.activeParticles.filter(particle => {
+                const age = (now - particle.startTime) / 800; // 800ms duration
+                if (age >= 1.0) return false;
+
+                // Update position
+                particle.x += particle.vx * (deltaTime / 1000);
+                particle.y += particle.vy * (deltaTime / 1000);
+
+                // Update life
+                particle.life = 1.0 - age;
+
+                // Apply gravity or damping if needed
+                particle.vy += 100 * (deltaTime / 1000); // gravity
+
+                return true;
+            });
+
+            // Render with WebGPU
+            if (window.FOSWebGPU) {
+                window.FOSWebGPU.renderParticles(this.activeParticles);
             }
         }
     }
