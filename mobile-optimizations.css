@@ -8,6 +8,12 @@
    ================================================== */
 @media (max-width: 768px) {
     
+    /* ===== HIDE WEBGL CANVAS ON MOBILE ===== */
+    .webgpu-canvas,
+    .webgpu-canvas.three-webgpu {
+        display: none !important;
+    }
+    
     /* ===== BASE STYLES ===== */
     :root {
         --3d-tilt-max: 0deg;

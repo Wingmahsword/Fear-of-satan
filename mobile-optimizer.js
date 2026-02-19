@@ -72,6 +72,17 @@
         },
 
         disable3DEffects() {
+            // CRITICAL: Hide WebGL/Three.js canvas on mobile to prevent white screen
+            document.querySelectorAll('.webgpu-canvas, .three-webgpu').forEach(canvas => {
+                canvas.style.display = 'none';
+                canvas.style.visibility = 'hidden';
+            });
+            
+            // Disable Three.js engine if running
+            if (window.ThreeWebGPU) {
+                window.ThreeWebGPU.isMobileDisabled = true;
+            }
+
             // Disable 3D card tilts
             document.querySelectorAll('.p-card').forEach(card => {
                 card.style.transform = 'none';

@@ -43,6 +43,14 @@ class ThreeWebGPUEngine {
     
     async init() {
         try {
+            // MOBILE CHECK: Skip Three.js on mobile devices to prevent white screen
+            const isMobile = window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches;
+            if (isMobile) {
+                console.log('📱 Mobile device detected - disabling Three.js for performance');
+                this.useFallback();
+                return;
+            }
+            
             // Check WebGPU support
             if (!navigator.gpu) {
                 console.log('WebGPU not supported, using fallback');
