@@ -269,15 +269,19 @@
 
             const elements = document.querySelectorAll(selector);
             elements.forEach(el => {
-                this.layers.push({
-                    element: el,
-                    speed: speed,
-                    baseTransform: el.style.transform || ''
-                });
+                if (window.FOSWebGPU && window.FOSWebGPU.supported) {
+                    window.FOSWebGPU.addParallaxElement(el, speed);
+                } else {
+                    this.layers.push({
+                        element: el,
+                        speed: speed,
+                        baseTransform: el.style.transform || ''
+                    });
+                }
             });
 
-            // Subscribe to animation loop
-            if (this.layers.length === 1) {
+            // Subscribe to animation loop if not using WebGPU
+            if (this.layers.length === 1 && !(window.FOSWebGPU && window.FOSWebGPU.supported)) {
                 this.unsubscribe = animLoop.add(() => this.update());
             }
         }

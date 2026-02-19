@@ -83,6 +83,24 @@
             }
             return out;
         },
+        rotateX: (out, a, rad) => {
+            const s = Math.sin(rad), c = Math.cos(rad);
+            const a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7];
+            const a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11];
+            out[4] = a10*c + a20*s;
+            out[5] = a11*c + a21*s;
+            out[6] = a12*c + a22*s;
+            out[7] = a13*c + a23*s;
+            out[8] = a20*c - a10*s;
+            out[9] = a21*c - a11*s;
+            out[10] = a22*c - a12*s;
+            out[11] = a23*c - a13*s;
+            if (out !== a) {
+                out[0] = a[0]; out[1] = a[1]; out[2] = a[2]; out[3] = a[3];
+                out[12] = a[12]; out[13] = a[13]; out[14] = a[14]; out[15] = a[15];
+            }
+            return out;
+        },
         scale: (out, a, v) => {
             const x = v[0], y = v[1], z = v[2];
             out[0] = a[0] * x; out[1] = a[1] * x; out[2] = a[2] * x; out[3] = a[3] * x;
@@ -121,13 +139,19 @@
             this.buffers = new Map();
             this.bindGroups = new Map();
             this.uniformBuffer = null;
+            this.textures = new Map();
             this.floatingElements = [
                 { type: 'cube', position: [0.05, 0.2, 0], rotation: 0, color: [1, 0, 0, 0.8] },
                 { type: 'pyramid', position: [0.92, 0.6, 0], rotation: 0, color: [0, 1, 0, 0.8] },
                 { type: 'orb', position: [0.1, 0.4, 0], rotation: 0, color: [0, 0, 1, 0.8] }
             ];
+            this.tiltingCards = [];
+            this.parallaxElements = [];
             this.activeParticles = [];
             this.particleId = 0;
+
+            this.projection = mat4.create();
+            mat4.ortho(this.projection, -1, 1, -1, 1, -1, 1);
 
             this.init();
         }
@@ -175,6 +199,7 @@
 
                 this.initParticleRenderer();
                 this.initFloatingRenderer();
+                this.initTiltRenderer();
                 this.startRenderLoop();
 
             } catch (error) {
@@ -227,10 +252,16 @@
 
             const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
 
+            // Render tilting cards first (background)
+            this.renderTilt(passEncoder);
+
+            // Render parallax elements
+            this.renderParallax(passEncoder);
+
             // Render floating elements
             this.renderFloating(passEncoder);
 
-            // Render particles
+            // Render particles (foreground)
             this.renderParticles(passEncoder);
 
             passEncoder.endPass();
@@ -406,8 +437,8 @@
 
             // Cube vertices and indices
             const cubeVertices = new Float32Array([
-                -0.5, -0.5,  0.5,  0.5, -0.5,  0.5,  0.5,  0.5,  0.5, -0.5,  0.5,  0.5, // front
-                -0.5, -0.5, -0.5,  0.5, -0.5, -0.5,  0.5,  0.5, -0.5, -0.5,  0.5, -0.5  // back
+                -0.5, -0.5,  0.5,  0.5, -0.5,  0.5,  0.5,  0.5,  0.5, -0.5,  0.5,  0.5,
+                -0.5, -0.5, -0.5,  0.5, -0.5, -0.5,  0.5,  0.5, -0.5, -0.5,  0.5, -0.5
             ]);
             const cubeIndices = new Uint16Array([
                 0,1,2, 0,2,3, 4,5,6, 4,6,7, 0,1,5, 0,5,4,
@@ -478,6 +509,258 @@
                 passEncoder.setVertexBuffer(0, this.buffers.get(el.type + 'Vertices'));
                 passEncoder.setIndexBuffer(this.buffers.get(el.type + 'Indices'), 'uint16');
                 passEncoder.drawIndexed(this.buffers.get(el.type + 'Indices').size / 2);
+            });
+        }
+
+        /* ==================================================
+           4. TILT SYSTEM — GPU-Accelerated Card Rendering
+           ================================================== */
+
+        async initTiltRenderer() {
+            const vertexShaderCode = `
+                struct Uniforms {
+                    mvp: mat4x4<f32>;
+                };
+                [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
+                [[stage(vertex)]]
+                fn main([[location(0)]] position: vec3<f32>, [[location(1)]] uv: vec2<f32>) -> [[builtin(position)]] vec4<f32>, [[location(0)]] vec2<f32> {
+                    var outPos: vec4<f32> = uniforms.mvp * vec4<f32>(position, 1.0);
+                    return outPos, uv;
+                }
+            `;
+
+            const fragmentShaderCode = `
+                [[binding(1), group(0)]] var texture: texture_2d<f32>;
+                [[binding(2), group(0)]] var sampler: sampler;
+                [[stage(fragment)]]
+                fn main([[location(0)]] uv: vec2<f32>) -> [[location(0)]] vec4<f32> {
+                    return textureSample(texture, sampler, uv);
+                }
+            `;
+
+            const vertexModule = this.device.createShaderModule({ code: vertexShaderCode });
+            const fragmentModule = this.device.createShaderModule({ code: fragmentShaderCode });
+
+            this.sampler = this.device.createSampler();
+
+            const bindGroupLayout = this.device.createBindGroupLayout({
+                entries: [
+                    { binding: 0, visibility: GPUShaderStage.VERTEX, buffer: { type: 'uniform' } },
+                    { binding: 1, visibility: GPUShaderStage.FRAGMENT, texture: { sampleType: 'float' } },
+                    { binding: 2, visibility: GPUShaderStage.FRAGMENT, sampler: { type: 'filtering' } }
+                ]
+            });
+
+            const pipelineDescriptor = {
+                layout: this.device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout] }),
+                vertex: {
+                    module: vertexModule,
+                    entryPoint: 'main',
+                    buffers: [{
+                        arrayStride: 20, // 3 pos + 2 uv
+                        attributes: [
+                            { shaderLocation: 0, offset: 0, format: 'float32x3' },
+                            { shaderLocation: 1, offset: 12, format: 'float32x2' }
+                        ]
+                    }]
+                },
+                fragment: {
+                    module: fragmentModule,
+                    entryPoint: 'main',
+                    targets: [{ format: this.swapChainFormat }]
+                },
+                primitive: { topology: 'triangle-list' }
+            };
+
+            this.pipelines.set('tilt', this.device.createRenderPipeline(pipelineDescriptor));
+
+            // Quad vertices (0-1 space)
+            const quadVertices = new Float32Array([
+                0, 0, 0, 0, 0,  // bottom-left
+                1, 0, 0, 1, 0,  // bottom-right
+                0, 1, 0, 0, 1,  // top-left
+                1, 1, 0, 1, 1   // top-right
+            ]);
+            const quadIndices = new Uint16Array([0,1,2, 1,3,2]);
+
+            this.buffers.set('quadVertices', this.device.createBuffer({
+                size: quadVertices.byteLength,
+                usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST
+            }));
+            this.device.queue.writeBuffer(this.buffers.get('quadVertices'), 0, quadVertices);
+
+            this.buffers.set('quadIndices', this.device.createBuffer({
+                size: quadIndices.byteLength,
+                usage: GPUBufferUsage.INDEX | GPUBufferUsage.COPY_DST
+            }));
+            this.device.queue.writeBuffer(this.buffers.get('quadIndices'), 0, quadIndices);
+
+            this.tiltUniformBuffer = this.device.createBuffer({
+                size: 64,
+                usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+            });
+        }
+
+        addTiltCard(card, tiltX, tiltY, scale) {
+            if (!this.supported) return;
+
+            const img = card.querySelector('img');
+            if (!img) return;
+
+            const src = img.src;
+            if (!this.textures.has(src)) {
+                const image = new Image();
+                image.crossOrigin = 'anonymous';
+                image.onload = () => {
+                    const texture = this.device.createTexture({
+                        size: [image.width, image.height],
+                        format: 'rgba8unorm',
+                        usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
+                    });
+                    this.device.queue.copyExternalImageToTexture({ source: image }, { texture }, [image.width, image.height]);
+                    this.textures.set(src, texture);
+                };
+                image.src = src;
+            }
+
+            // Hide original card
+            card.style.opacity = '0';
+
+            // Find or add to tilting cards
+            let tiltCard = this.tiltingCards.find(tc => tc.card === card);
+            if (!tiltCard) {
+                tiltCard = { card, tiltX: 0, tiltY: 0, scale: 1, texture: null, imgSrc: src };
+                this.tiltingCards.push(tiltCard);
+            }
+            tiltCard.tiltX = tiltX;
+            tiltCard.tiltY = tiltY;
+            tiltCard.scale = scale;
+            tiltCard.texture = this.textures.get(src);
+
+        renderTilt(passEncoder) {
+            if (!this.tiltingCards.length) return;
+
+            const projection = mat4.create();
+            mat4.ortho(projection, -1, 1, -1, 1, -1, 1);
+
+            this.tiltingCards.forEach(tiltCard => {
+                if (!tiltCard.texture) return;
+
+                const rect = tiltCard.card.getBoundingClientRect();
+                const clipX = (rect.left / this.canvas.width) * 2 - 1;
+                const clipY = 1 - (rect.top / this.canvas.height) * 2;
+                const widthClip = (rect.width / this.canvas.width) * 2;
+                const heightClip = (rect.height / this.canvas.height) * 2;
+
+                const model = mat4.create();
+                mat4.identity(model);
+                mat4.translate(model, model, [clipX, clipY - heightClip, 0]);
+                mat4.scale(model, model, [widthClip, heightClip, 1]);
+                mat4.rotateX(model, model, tiltCard.tiltX * Math.PI / 180);
+                mat4.rotateY(model, model, tiltCard.tiltY * Math.PI / 180);
+
+                const mvp = mat4.create();
+                mat4.multiply(mvp, projection, model);
+
+                this.device.queue.writeBuffer(this.tiltUniformBuffer, 0, mvp);
+
+                const bindGroup = this.device.createBindGroup({
+                    layout: this.pipelines.get('tilt').getBindGroupLayout(0),
+                    entries: [
+                        { binding: 0, resource: { buffer: this.tiltUniformBuffer } },
+                        { binding: 1, resource: tiltCard.texture.createView() },
+                        { binding: 2, resource: this.sampler }
+                    ]
+                });
+
+                passEncoder.setPipeline(this.pipelines.get('tilt'));
+                passEncoder.setBindGroup(0, bindGroup);
+                passEncoder.setVertexBuffer(0, this.buffers.get('quadVertices'));
+                passEncoder.setIndexBuffer(this.buffers.get('quadIndices'), 'uint16');
+                passEncoder.drawIndexed(6);
+            });
+        }
+
+        /* ==================================================
+           6. PARALLAX SYSTEM — GPU-Accelerated
+           ================================================== */
+
+        addParallaxElement(el, speed) {
+            if (!this.supported) return;
+
+            const computed = getComputedStyle(el);
+            const bgImage = computed.backgroundImage;
+
+            if (bgImage && bgImage !== 'none') {
+                const url = bgImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
+                if (url) {
+                    if (!this.textures.has(url)) {
+                        const image = new Image();
+                        image.crossOrigin = 'anonymous';
+                        image.onload = () => {
+                            const texture = this.device.createTexture({
+                                size: [image.width, image.height],
+                                format: 'rgba8unorm',
+                                usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST
+                            });
+                            this.device.queue.copyExternalImageToTexture({ source: image }, { texture }, [image.width, image.height]);
+                            this.textures.set(url, texture);
+                        };
+                        image.src = url;
+                    }
+
+                    el.style.opacity = '0';
+                    this.parallaxElements.push({ el, speed, texture: this.textures.get(url), url });
+                }
+            }
+        }
+
+        renderParallax(passEncoder) {
+            if (!this.parallaxElements.length) return;
+
+            const centerX = this.canvas.width / 2;
+            const centerY = this.canvas.height / 2;
+            const offsetX = (state.mouseX - centerX) / centerX;
+            const offsetY = (state.mouseY - centerY) / centerY;
+
+            this.parallaxElements.forEach(parallaxEl => {
+                const rect = parallaxEl.el.getBoundingClientRect();
+                const clipX = (rect.left / this.canvas.width) * 2 - 1;
+                const clipY = 1 - (rect.top / this.canvas.height) * 2;
+                const widthClip = (rect.width / this.canvas.width) * 2;
+                const heightClip = (rect.height / this.canvas.height) * 2;
+
+                const moveX = offsetX * 30 * parallaxEl.speed;
+                const moveY = offsetY * 20 * parallaxEl.speed;
+                const translateX = (moveX / this.canvas.width) * 2;
+                const translateY = -(moveY / this.canvas.height) * 2;
+
+                const model = mat4.create();
+                mat4.identity(model);
+                mat4.translate(model, model, [clipX + translateX, clipY - heightClip + translateY, 0]);
+                mat4.scale(model, model, [widthClip, heightClip, 1]);
+
+                const mvp = mat4.create();
+                mat4.multiply(mvp, this.projection, model);
+
+                this.device.queue.writeBuffer(this.tiltUniformBuffer, 0, mvp);
+
+                if (parallaxEl.texture) {
+                    const bindGroup = this.device.createBindGroup({
+                        layout: this.pipelines.get('tilt').getBindGroupLayout(0),
+                        entries: [
+                            { binding: 0, resource: { buffer: this.tiltUniformBuffer } },
+                            { binding: 1, resource: parallaxEl.texture.createView() },
+                            { binding: 2, resource: this.sampler }
+                        ]
+                    });
+
+                    passEncoder.setPipeline(this.pipelines.get('tilt'));
+                    passEncoder.setBindGroup(0, bindGroup);
+                    passEncoder.setVertexBuffer(0, this.buffers.get('quadVertices'));
+                    passEncoder.setIndexBuffer(this.buffers.get('quadIndices'), 'uint16');
+                    passEncoder.drawIndexed(6);
+                }
             });
         }
 
