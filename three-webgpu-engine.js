@@ -9,7 +9,6 @@
  */
 
 import * as THREE from 'three';
-import { WebGPURenderer } from 'three/addons/renderers/webgpu/WebGPURenderer.js';
 
 // Import Phase 2 systems
 import './three-post-processing.js';
@@ -64,13 +63,14 @@ class ThreeWebGPUEngine {
             `;
             document.body.appendChild(this.canvas);
             
-            // Three.js WebGPU renderer
-            this.renderer = new WebGPURenderer({ 
+            // Three.js WebGL renderer (WebGPU renderer not available in v0.175.0)
+            this.renderer = new THREE.WebGLRenderer({ 
                 canvas: this.canvas,
                 antialias: true,
-                alpha: true 
+                alpha: true,
+                powerPreference: 'high-performance'
             });
-            await this.renderer.init();
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             
             this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -85,7 +85,7 @@ class ThreeWebGPUEngine {
             );
             this.camera.position.z = 5;
             
-            this.isWebGPU = true;
+            this.isWebGL = true;
             
             // Initialize ALL Phase 2 Systems
             console.log('🚀 Initializing Phase 2 Advanced Systems...');
@@ -134,7 +134,7 @@ class ThreeWebGPUEngine {
             // Start render loop
             this.animate();
             
-            console.log('🎨 THREE.JS WEBGPU PHASE 2 COMPLETE');
+            console.log('🎨 THREE.JS WEBGL PHASE 2 COMPLETE');
             console.log('✨ Post-Processing: Bloom, Chromatic Aberration, Vignette, Grain');
             console.log('✨ Advanced Particles: 100,000+ GPU particles');
             console.log('✨ Fluid Simulation: 15,000 interactive liquid particles');
@@ -340,7 +340,7 @@ class ThreeWebGPUEngine {
     animate() {
         requestAnimationFrame(() => this.animate());
         
-        if (!this.isWebGPU || !this.renderer) return;
+        if (!this.isWebGL || !this.renderer) return;
         
         const time = this.clock.getElapsedTime();
         const delta = this.clock.getDelta();
@@ -386,7 +386,7 @@ class ThreeWebGPUEngine {
     
     useFallback() {
         console.log('Using custom WebGPU engine as fallback');
-        document.body.classList.add('three-webgpu-fallback');
+        document.body.classList.add('three-webgl-fallback');
     }
 }
 
