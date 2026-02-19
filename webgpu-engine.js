@@ -253,7 +253,8 @@
             const renderPassDescriptor = {
                 colorAttachments: [{
                     view: textureView,
-                    loadValue: { r: 0, g: 0, b: 0, a: 0 },
+                    loadOp: 'clear',
+                    clearValue: { r: 0, g: 0, b: 0, a: 0 },
                     storeOp: 'store'
                 }]
             };
@@ -272,7 +273,7 @@
             // Render particles (foreground)
             this.renderParticles(passEncoder);
 
-            passEncoder.endPass();
+            passEncoder.end();
             this.device.queue.submit([commandEncoder.finish()]);
         }
 
@@ -283,18 +284,18 @@
         async initParticleRenderer() {
             const vertexShaderCode = `
                 struct VertexInput {
-                    [[location(0)]] position: vec2<f32>;
-                    [[location(1)]] velocity: vec2<f32>;
-                    [[location(2)]] life: f32;
-                    [[location(3)]] size: f32;
-                    [[location(4)]] color: vec4<f32>;
+                    @location(0) position: vec2<f32>,
+                    @location(1) velocity: vec2<f32>,
+                    @location(2) life: f32,
+                    @location(3) size: f32,
+                    @location(4) color: vec4<f32>
                 };
                 struct VertexOutput {
-                    [[builtin(position)]] position: vec4<f32>;
-                    [[location(0)]] color: vec4<f32>;
-                    [[location(1)]] size: f32;
+                    @builtin(position) position: vec4<f32>,
+                    @location(0) color: vec4<f32>,
+                    @location(1) size: f32
                 };
-                [[stage(vertex)]]
+                @vertex
                 fn main(input: VertexInput) -> VertexOutput {
                     var clipX: f32 = (input.position.x / 800.0) * 2.0 - 1.0;
                     var clipY: f32 = 1.0 - (input.position.y / 600.0) * 2.0;
@@ -307,9 +308,8 @@
             `;
 
             const fragmentShaderCode = `
-                [[location(0)]] color: vec4<f32>;
-                [[stage(fragment)]]
-                fn main() -> [[location(0)]] vec4<f32> {
+                @fragment
+                fn main(@location(0) color: vec4<f32>) -> @location(0) vec4<f32> {
                     return color;
                 }
             `;
@@ -390,24 +390,24 @@
         async initFloatingRenderer() {
             const vertexShaderCode = `
                 struct Uniforms {
-                    mvp: mat4x4<f32>;
-                    color: vec4<f32>;
+                    mvp: mat4x4<f32>,
+                    color: vec4<f32>
                 };
-                [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
-                [[stage(vertex)]]
-                fn main([[location(0)]] position: vec3<f32>) -> [[builtin(position)]] vec4<f32> {
+                @binding(0) @group(0) var<uniform> uniforms: Uniforms;
+                @vertex
+                fn main(@location(0) position: vec3<f32>) -> @builtin(position) vec4<f32> {
                     return uniforms.mvp * vec4<f32>(position, 1.0);
                 }
             `;
 
             const fragmentShaderCode = `
                 struct Uniforms {
-                    mvp: mat4x4<f32>;
-                    color: vec4<f32>;
+                    mvp: mat4x4<f32>,
+                    color: vec4<f32>
                 };
-                [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
-                [[stage(fragment)]]
-                fn main() -> [[location(0)]] vec4<f32> {
+                @binding(0) @group(0) var<uniform> uniforms: Uniforms;
+                @fragment
+                fn main() -> @location(0) vec4<f32> {
                     return uniforms.color;
                 }
             `;
@@ -527,15 +527,15 @@
         async initTiltRenderer() {
             const vertexShaderCode = `
                 struct Uniforms {
-                    mvp: mat4x4<f32>;
+                    mvp: mat4x4<f32>
                 };
                 struct VertexOutput {
-                    [[builtin(position)]] position: vec4<f32>;
-                    [[location(0)]] uv: vec2<f32>;
+                    @builtin(position) position: vec4<f32>,
+                    @location(0) uv: vec2<f32>
                 };
-                [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
-                [[stage(vertex)]]
-                fn main([[location(0)]] position: vec3<f32>, [[location(1)]] uv: vec2<f32>) -> VertexOutput {
+                @binding(0) @group(0) var<uniform> uniforms: Uniforms;
+                @vertex
+                fn main(@location(0) position: vec3<f32>, @location(1) uv: vec2<f32>) -> VertexOutput {
                     var output: VertexOutput;
                     output.position = uniforms.mvp * vec4<f32>(position, 1.0);
                     output.uv = uv;
@@ -544,10 +544,10 @@
             `;
 
             const fragmentShaderCode = `
-                [[binding(1), group(0)]] var texture: texture_2d<f32>;
-                [[binding(2), group(0)]] var sampler: sampler;
-                [[stage(fragment)]]
-                fn main([[location(0)]] uv: vec2<f32>) -> [[location(0)]] vec4<f32> {
+                @binding(1) @group(0) var texture: texture_2d<f32>;
+                @binding(2) @group(0) var sampler: sampler;
+                @fragment
+                fn main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
                     return textureSample(texture, sampler, uv);
                 }
             `;
