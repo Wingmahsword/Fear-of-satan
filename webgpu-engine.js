@@ -149,9 +149,17 @@
             this.parallaxElements = [];
             this.activeParticles = [];
             this.particleId = 0;
+            this.mouseX = window.innerWidth / 2;
+            this.mouseY = window.innerHeight / 2;
 
             this.projection = mat4.create();
             mat4.ortho(this.projection, -1, 1, -1, 1, -1, 1);
+
+            // Track mouse position for parallax
+            document.addEventListener('mousemove', (e) => {
+                this.mouseX = e.clientX;
+                this.mouseY = e.clientY;
+            });
 
             this.init();
         }
@@ -521,11 +529,17 @@
                 struct Uniforms {
                     mvp: mat4x4<f32>;
                 };
+                struct VertexOutput {
+                    [[builtin(position)]] position: vec4<f32>;
+                    [[location(0)]] uv: vec2<f32>;
+                };
                 [[binding(0), group(0)]] var<uniform> uniforms: Uniforms;
                 [[stage(vertex)]]
-                fn main([[location(0)]] position: vec3<f32>, [[location(1)]] uv: vec2<f32>) -> [[builtin(position)]] vec4<f32>, [[location(0)]] vec2<f32> {
-                    var outPos: vec4<f32> = uniforms.mvp * vec4<f32>(position, 1.0);
-                    return outPos, uv;
+                fn main([[location(0)]] position: vec3<f32>, [[location(1)]] uv: vec2<f32>) -> VertexOutput {
+                    var output: VertexOutput;
+                    output.position = uniforms.mvp * vec4<f32>(position, 1.0);
+                    output.uv = uv;
+                    return output;
                 }
             `;
 
@@ -636,6 +650,7 @@
             tiltCard.tiltY = tiltY;
             tiltCard.scale = scale;
             tiltCard.texture = this.textures.get(src);
+        }
 
         renderTilt(passEncoder) {
             if (!this.tiltingCards.length) return;
@@ -720,8 +735,8 @@
 
             const centerX = this.canvas.width / 2;
             const centerY = this.canvas.height / 2;
-            const offsetX = (state.mouseX - centerX) / centerX;
-            const offsetY = (state.mouseY - centerY) / centerY;
+            const offsetX = (this.mouseX - centerX) / centerX;
+            const offsetY = (this.mouseY - centerY) / centerY;
 
             this.parallaxElements.forEach(parallaxEl => {
                 const rect = parallaxEl.el.getBoundingClientRect();
